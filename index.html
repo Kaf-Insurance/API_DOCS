@@ -626,6 +626,131 @@
     letter-spacing: 1px;
   }
 
+  /* ── Note callout ── */
+  p.note {
+    background: rgba(107,2,125,0.05);
+    border-left: 3px solid var(--kaf-purple-border);
+    padding: 10px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--kaf-muted);
+    margin: 12px 0;
+  }
+
+  /* ── Enhanced diagram nodes ── */
+  .fn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px; border-radius: 8px; font-weight: 600; font-size: 13px;
+    white-space: nowrap; cursor: default; transition: all 0.2s;
+    border: 1.5px solid transparent;
+  }
+  .fn:hover { transform: scale(1.05); box-shadow: 0 3px 12px rgba(107,2,125,0.15); }
+  .fn-purple { background: var(--kaf-purple); color: #fff; border-color: var(--kaf-purple); }
+  .fn-green  { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+  .fn-yellow { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
+  .fn-red    { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+  .fn-blue   { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+  .fn-grey   { background: #f3f4f6; color: #4b5563; border-color: #d1d5db; }
+  .fn-orange { background: #ffedd5; color: #9a3412; border-color: #fdba74; }
+  .fn-pill   { border-radius: 24px; }
+
+  /* ── Vertical flow diagram ── */
+  .flow-v {
+    display: flex; flex-direction: column; align-items: flex-start;
+    padding: 24px 32px; background: var(--kaf-purple-bg);
+    border-radius: var(--radius); margin: 16px 0; box-shadow: var(--shadow-sm);
+    gap: 0;
+  }
+  .flow-v-row { display: flex; align-items: center; gap: 10px; padding: 2px 0; }
+  .fn-label { font-size: 12.5px; color: var(--kaf-muted); }
+  .flow-v-gap {
+    width: 2px; height: 26px;
+    background: linear-gradient(180deg, var(--kaf-purple), rgba(107,2,125,0.1));
+    opacity: 0.35; margin-left: 30px;
+  }
+  .flow-v-branches { display: flex; flex-wrap: wrap; gap: 12px; margin-left: 36px; }
+  .flow-v-branch { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .flow-v-branch-label { font-size: 11px; color: var(--kaf-muted); font-style: italic; text-align: center; }
+  .flow-v-divider {
+    width: 100%; border-top: 1px dashed var(--kaf-purple-border);
+    margin: 14px 0 10px; padding-top: 12px;
+    font-size: 12px; color: var(--kaf-muted); font-weight: 600;
+  }
+  .flow-v-extra { display: flex; flex-direction: column; gap: 8px; }
+  .flow-v-extra-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .flow-v-extra-label { font-size: 12.5px; color: var(--kaf-muted); }
+
+  /* ── Diagram section heading ── */
+  .diagram-section { margin: 28px 0; }
+  .diagram-section-title {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--kaf-muted); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .diagram-section-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--kaf-purple-border), transparent);
+  }
+
+  /* ── Step-numbered list ── */
+  .step-list { counter-reset: steps; list-style: none; padding: 0; margin: 16px 0; }
+  .step-list > li {
+    counter-increment: steps;
+    padding: 13px 18px 13px 62px; margin-bottom: 6px;
+    background: #fff; border: 1px solid #e8dced;
+    border-left: 4px solid var(--kaf-purple); border-radius: var(--radius);
+    position: relative; font-size: 14px; transition: all 0.2s;
+  }
+  .step-list > li::before {
+    content: counter(steps);
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    background: var(--kaf-purple); color: #fff;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+  }
+  .step-list > li:hover { box-shadow: var(--shadow-md); transform: translateX(3px); }
+  .step-list > li small { display: block; font-size: 12.5px; color: var(--kaf-muted); margin-top: 4px; }
+
+  /* ── Gate/validation list ── */
+  .gate-list { list-style: none; padding: 0; margin: 12px 0; }
+  .gate-list > li {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 11px 16px; margin-bottom: 5px;
+    background: #fff; border: 1px solid #e8dced; border-radius: 8px;
+    font-size: 13.5px; transition: all 0.2s;
+  }
+  .gate-list > li:hover { border-color: var(--kaf-purple-border); box-shadow: var(--shadow-sm); }
+  .gate-badge {
+    background: var(--kaf-purple); color: #fff; padding: 2px 10px;
+    border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap;
+    align-self: flex-start; margin-top: 3px; flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+  }
+  .gate-badge.warn { background: #d97706; }
+  .gate-badge.danger { background: #dc2626; }
+
+  /* ── Capability card grid ── */
+  .cap-grid { display: flex; gap: 14px; flex-wrap: wrap; margin: 16px 0; }
+  .cap-card {
+    background: #fff; border: 1px solid #e8dced; border-radius: 10px;
+    padding: 18px 22px; min-width: 170px; flex: 1;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: all 0.25s; cursor: default;
+  }
+  .cap-card:hover { box-shadow: var(--shadow-md); border-color: var(--kaf-purple-border); transform: translateY(-2px); }
+  .cap-card-icon { font-size: 24px; }
+  .cap-card-title { font-weight: 700; font-size: 13.5px; }
+  .cap-card-body { font-size: 12px; color: var(--kaf-muted); line-height: 1.6; }
+
+  /* ── Item type cards ── */
+  .item-cards { display: flex; gap: 14px; flex-wrap: wrap; margin: 16px 0; }
+  .item-card {
+    background: #fff; border-radius: 10px; padding: 16px 20px;
+    min-width: 180px; flex: 1; transition: all 0.2s;
+  }
+  .item-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
   /* ── Responsive ── */
   @media (max-width: 900px) {
     .sidebar, .scroll-progress { display: none; }
@@ -706,9 +831,36 @@
     <a href="#s7-2"><span class="num">7.2</span>Download Signed Quotation</a>
     <a href="#s7-3"><span class="num">7.3</span>Download Quotation PDF</a>
 
+    <a class="section-title">Policy Management</a>
+    <a class="section-subtitle">Members</a>
+    <a href="#s8-1"><span class="num">8.1</span>List Active Members</a>
+    <a href="#s8-2"><span class="num">8.2</span>List All Members</a>
+    <a href="#s8-3"><span class="num">8.3</span>Download Members Excel</a>
+    <a href="#s8-4"><span class="num">8.4</span>Get Member Details</a>
+    <a class="section-subtitle">Invoices</a>
+    <a href="#s8-5"><span class="num">8.5</span>List All Invoices</a>
+    <a href="#s8-6"><span class="num">8.6</span>Get Invoice Details</a>
+    <a href="#s8-7"><span class="num">8.7</span>Check Invoice Status</a>
+    <a href="#s8-8"><span class="num">8.8</span>Download Invoice PDF</a>
+    <a href="#s8-9"><span class="num">8.9</span>Members Breakdown Excel</a>
+    <a href="#s8-10"><span class="num">8.10</span>Settle Invoice</a>
+    <a href="#s8-11"><span class="num">8.11</span>Download Proof</a>
+    <a class="section-subtitle">Endorsement Requests</a>
+    <a href="#s9-1"><span class="num">9.1</span>List ERs</a>
+    <a href="#s9-2"><span class="num">9.2</span>Create ER</a>
+    <a href="#s9-3"><span class="num">9.3</span>Get ER Details</a>
+    <a href="#s9-4"><span class="num">9.4</span>Cancel ER</a>
+    <a href="#s9-5"><span class="num">9.5</span>Add Item</a>
+    <a href="#s9-6a"><span class="num">9.6</span>Export Template</a>
+    <a href="#s9-6b"><span class="num">9.6</span>Import Excel</a>
+    <a href="#s9-7"><span class="num">9.7</span>Remove Item</a>
+    <a href="#s9-8"><span class="num">9.8</span>Submit ER</a>
+
     <a class="section-title">Reference</a>
     <a href="#workflow">Workflow Summary</a>
-    <a href="#status-flow">Status Flow</a>
+    <a href="#status-flow">Status Flows</a>
+    <a href="#er-workflow">ER Workflow</a>
+    <a href="#invoice-flow">Invoice Settling</a>
     <a href="#endpoint-ref">Endpoint Table</a>
   </nav>
 </aside>
@@ -740,17 +892,66 @@
 
     <!-- ── What's New ── -->
     <div class="callout">
-      <h3>What's New — February 18, 2026</h3>
-      <p><strong>New Pool Endpoint (4.6)</strong><br>
-      Optional pool (side pool) amount is now managed via a dedicated endpoint <code>/pool/</code>. This one-time amount is added to the first premium and is <strong>NOT</strong> divided by payment frequency. Editable during <code>draft</code> and <code>pending_documents</code> status. Defaults to 0 if not set.</p>
-      <p><strong>Alteration Form Endpoint Removed</strong><br>
-      The alteration form upload endpoint (previously 5.2/5.3) has been removed as it is no longer needed.</p>
-      <p><strong>Country Column Support in 3.1</strong><br>
-      The quotation creation endpoint (3.1) now supports an optional <code>country</code> column. For non-Egyptian countries, National ID validation is skipped (minimum 5 chars required). If column is missing, defaults to Egypt with standard validation.</p>
-      <p><strong>Document Download Endpoints (section 7)</strong><br>
-      Three download endpoints: Contract (issued only), Signed Quotation (pending_issuance/issued), and Quotation PDF (any status).</p>
-      <p><strong>GET Methods Added to Document Upload Endpoints (2.6-2.9)</strong><br>
-      Document upload endpoints now support GET to retrieve uploaded documents. Returns the actual file as a download if uploaded, or 404 error if not yet uploaded.</p>
+      <h3>What's New — March 15, 2026</h3>
+      <p><strong>Login Response Trimming (1.1)</strong><br>
+      The login response now returns a trimmed user object. Removed fields: <code>height</code>, <code>weight</code>, <code>bmi</code>, <code>birth_date</code>, <code>gender</code>, <code>phone_number</code>, <code>fcm_token</code>, <code>signed_up</code>, <code>lang</code>. The response now includes only essential brokerage fields: <code>id</code>, <code>first_name</code>, <code>last_name</code>, <code>email</code>, <code>is_broker</code>, <code>broker_fra_id</code>, <code>broker_status</code>, <code>broker_data_confirmed</code>, <code>assigned_sales</code>, <code>assigned_sales_email</code>, <code>is_sales</code>.</p>
+      <p><strong>Purchase Request Response Cleanup</strong><br>
+      All OCR/AI-related fields have been removed from purchase request responses: <code>*_is_ai_autofilled</code>, <code>*_ocr_data</code>, <code>*_ocr_*_token_count</code>, <code>*_ocr_cost</code>, <code>*_ocr_timestamp</code>, <code>*_ocr_auth_*</code> fields for both tax_card and commercial_registry. Responses now include only the cleaned data values.</p>
+      <p><strong>Excel Download Fixes (8.3, 8.9)</strong><br>
+      Fixed corrupted binary responses for member downloads and invoice breakdown Excel files. Both endpoints now use proper <code>BytesIO</code> encoding with <code>Content-Transfer-Encoding: binary</code> headers for reliable file delivery.</p>
+      <p><strong>Endorsement Request Refactoring (9.4–9.8)</strong><br>
+      Major ER endpoint restructuring:</p>
+      <ul>
+        <li><strong>9.4 Cancel ER</strong> — New endpoint <code>POST /endorsement-requests/{er_id}/cancel/</code> replaces the old Update ER endpoint. Cancels a <strong>draft</strong> ER (changes status from <code>draft</code> to <code>cancelled</code>). Returns full ER object.</li>
+        <li><strong>9.5 Add Item</strong> — Now accepts category <strong>names</strong> (e.g., <code>"K100"</code>, <code>"100"</code>) in addition to integer IDs for <code>medical_category_id</code> and <code>life_category_id</code>. Names are automatically resolved to IDs.</li>
+        <li><strong>9.6 Export Template</strong> — New endpoint <code>GET /endorsement-requests/{er_id}/export-template/</code> downloads an Excel template pre-populated with all active policy members. Pending name/phone updates in the ER are reflected in the export. Category columns use names, not IDs.</li>
+        <li><strong>9.6 Import Excel</strong> — New endpoint <code>POST /endorsement-requests/{er_id}/import/</code> accepts a filled Excel template and bulk-creates ER items. Rows with matching National IDs and changed name/phone become <strong>update</strong> items; new rows become <strong>addition</strong> items; unchanged rows are skipped. Returns counts and the updated ER object.</li>
+        <li><strong>9.7 Remove Item</strong> — URL changed to <code>/endorsement-requests/{er_id}/items/{item_id}/</code> (includes ER ID). Now returns the updated ER object (was 204 No Content). When all items are removed, <code>er_type</code> resets to <code>addition</code>.</li>
+      </ul>
+      <p><strong>ER Type Determination Fix</strong><br>
+      The <code>determine_er_type()</code> method now correctly returns <code>addition</code> (not <code>mixed</code>) when an ER has zero items, ensuring proper type reset after removing all items.</p>
+
+      <h3>What's New — March 12, 2026</h3>
+      <p><strong>Quotations - Company Name on E-card Field (3.1)</strong><br>
+      The Create Quotation endpoint now accepts an optional <code>company_name_on_ecard</code> field. This field specifies the company name as it should appear on the E-card and is required before submitting for issuance. If not provided during quotation creation, it must be set on the Lead or Purchase Request before issuance submission.</p>
+      <h3>What's New — March 11, 2026</h3>
+      <p><strong>Policy Management - Members Section (8.1–8.4)</strong><br>
+      New endpoints for managing policy members after TPA activation. Includes viewing active members, viewing all members (active and inactive), and exporting active members to Excel. All member endpoints require the policy status to be <code>tpa_services_activated</code>.</p>
+      <p><strong>Policy Management - Invoices Section (8.5–8.11)</strong><br>
+      New endpoints for the Invoices section in Manage Policies. View all invoices or a single invoice (with <code>settlement_status</code>), download invoice PDF, download members premium breakdown Excel, submit a settlement (Settle flow with proof of payment upload), download proof of payment, and check invoice status. Invoices are accessible from <code>pending_issuance</code> status onward.</p>
+      <p><strong>Policy Management — Endorsement Requests Section (9.1–9.8)</strong><br>
+      New set of endpoints for creating and managing Endorsement Requests (ERs). All endpoints require <code>purchase_request.status = tpa_services_activated</code>. Key features and validations:</p>
+      <ul>
+        <li><strong>9.1 List ERs</strong> — returns all ERs for a policy, newest first; optional <code>?status=</code> filter.</li>
+        <li><strong>9.2 Create ER</strong> — creates a draft ER. <em>Open-ER gate:</em> blocked if any ER in <code>draft</code>, <code>pending</code>, or <code>partially_approved</code> (with pending items) already exists. Error response includes <code>existing_er_id</code> and <code>existing_er_status</code>.</li>
+        <li><strong>9.3 Get ER Details</strong> — returns full ER with all nested items including <code>temp_member_data</code>, <code>update_fields_data</code>, <code>approval_status</code>, <code>document_url</code>, and per-item rejection reasons.</li>
+        <li><strong>9.4 Cancel ER</strong> — cancels a draft ER (sets status to <code>cancelled</code>). Only works while status is <code>draft</code>.</li>
+        <li><strong>9.5 Add Item</strong> — adds one item of type <code>addition</code>, <code>deletion</code>, or <code>update</code>. Enforces at creation time:
+          <ul>
+            <li><strong>Deletion:</strong> <code>policy_member</code> must be <code>is_active=True</code> and belong to this policy.</li>
+            <li><strong>Addition — categories:</strong> <code>medical_category_id</code> and <code>life_category_id</code> accept either integer IDs or category name strings (e.g. <code>"K100"</code>). If <code>member_type</code> is <code>spouse</code> or <code>child</code>, <code>life_category_id</code> is stripped to <code>null</code>.</li>
+            <li><strong>Update:</strong> only <code>name</code> and <code>mobile_number</code> editable; name regex enforced; mobile 11-digit normalised; old values auto-filled; name change auto-sets <code>required_document_type = National ID</code>.</li>
+          </ul>
+        </li>
+        <li><strong>9.6 Export Template / Import Excel</strong> — download an Excel template pre-populated with active members, edit it offline, then re-import to bulk-create addition and update items.</li>
+        <li><strong>9.7 Remove Item</strong> — removes an item from a draft ER; <code>er_type</code> recalculated. When all items are removed, <code>er_type</code> resets to <code>addition</code>. Returns the updated ER object.</li>
+        <li><strong>9.8 Submit ER</strong> — runs full validation chain before setting <code>status → pending</code>. Validation gates in order:
+          <ol>
+            <li>ER must not be empty (≥ 1 item).</li>
+            <li>Update items gate: <code>old ≠ new</code> for every field.</li>
+            <li><strong>Employee deletion cascade gate:</strong> if an employee is being deleted, <em>all</em> of their active dependents (matched by <code>staff_id</code> exact or <code>staff_id</code> prefix e.g. <code>EMP001-1</code>) must also be in the deletion list. Returns <code>400</code> with each employee name and the list of missing dependents.</li>
+            <li>Addition data validation: NID format + DOB cross-check; no duplicate NIDs within ER or against active members; staff ID rules; 11-digit mobile.</li>
+            <li><strong>Medical category plan restriction:</strong> <code>medical_category_id</code> must be one already used by the policy's active members. If no members have categories yet (edge case), check is skipped.</li>
+            <li>Life category normalisation: any <code>life_category_id</code> on a spouse/child item is set to <code>null</code>.</li>
+            <li>Document requirements (when <code>today &gt; inception_date + 30 days</code>): spouse → Marriage Certificate required; child born &le; 30 days → allowed; child born &gt; 30 days → ER blocked; name-change update → National ID required.</li>
+          </ol>
+        </li>
+      </ul>
+      <p>On successful submit: <code>status → pending</code>, <code>submitted_at = now()</code>, GlobeMed alteration email sent automatically.</p>
+      <p><strong>TPA Activation Validation (Improved)</strong><br>
+      Member list, member detail, member download, and Endorsement Request endpoints now return clear, descriptive errors when TPA status requirements are not met. Returns <code>404</code> if the policy does not exist or does not belong to the broker; returns <code>403</code> with a message like <em>"This action requires TPA services to be activated on the policy. Current policy status: &quot;Issued&quot;."</em> if the policy exists but has the wrong status.</p>
+      <p><strong>Enhanced Member Filtering</strong><br>
+      Active members endpoint (<code>/policies/{id}/members/</code>) now returns only active members by default. New all-members endpoint (<code>/policies/{id}/members/all/</code>) supports optional filtering by active status.</p>
     </div>
 
     <!-- ══════════ 1. AUTHENTICATION ══════════ -->
@@ -945,6 +1146,7 @@
         <tr><td><code>lead</code></td><td>integer</td><td>Yes</td><td>Lead ID</td></tr>
         <tr><td><code>members_file</code></td><td>file</td><td>Yes</td><td>Excel file (.xlsx or .xls) with member data</td></tr>
         <tr><td><code>inception_date</code></td><td>string</td><td>Yes</td><td>YYYY-MM-DD, must be tomorrow or later</td></tr>
+        <tr><td><code>company_name_on_ecard</code></td><td>string</td><td>No</td><td>Company name as it should appear on the E-card (required for issuance)</td></tr>
         <tr><td><code>notes</code></td><td>string</td><td>No</td><td>Optional notes</td></tr>
       </tbody>
     </table>
@@ -1317,46 +1519,975 @@
 
     <hr>
 
+    <!-- ══════════ 9. ENDORSEMENT REQUESTS ══════════ -->
+    <h2 id="endorsement-requests">9. Endorsement Requests</h2>
+    <div class="callout">
+      <strong>Accessible only when <code>purchase_request.status = tpa_services_activated</code>.</strong><br>
+      All endpoints enforce: (1) Ownership — <code>purchase_request.broker</code> must be the authenticated user. (2) Status — policy must be <code>tpa_services_activated</code>.<br>
+      <strong>Error behavior:</strong> Returns <code>404</code> if the policy does not exist or does not belong to you. Returns <code>403</code> with a message like <em>"This action requires TPA services to be activated on the policy. Current policy status: &quot;Issued&quot;."</em> if the policy exists but has the wrong status.
+    </div>
+
+    <h3 id="s9-1">9.1 List Endorsement Requests</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/endorsement-requests/</div>
+    <p>Returns all ERs for a policy, ordered newest first.</p>
+    <p><strong>Query Parameters:</strong> <code>status</code> (optional) — filter by ER status: <code>draft</code>, <code>pending</code>, <code>approved</code>, <code>partially_approved</code>, <code>rejected</code>, <code>cancelled</code></p>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">[
+  {
+    <span class="key">"id"</span>: <span class="num">1</span>,
+    <span class="key">"er_display_id"</span>: <span class="str">"KAF-2026-001-ER-1"</span>,
+    <span class="key">"purchase_request"</span>: <span class="num">123</span>,
+    <span class="key">"company_name"</span>: <span class="str">"ABC Corporation"</span>,
+    <span class="key">"er_type"</span>: <span class="str">"addition"</span>,
+    <span class="key">"status"</span>: <span class="str">"pending"</span>,
+    <span class="key">"effective_date"</span>: <span class="kw">null</span>,
+    <span class="key">"created_at"</span>: <span class="str">"2026-03-01T10:00:00Z"</span>,
+    <span class="key">"submitted_at"</span>: <span class="str">"2026-03-01T11:00:00Z"</span>,
+    <span class="key">"rejection_reason"</span>: <span class="str">""</span>,
+    <span class="key">"additions_count"</span>: <span class="num">2</span>,
+    <span class="key">"deletions_count"</span>: <span class="num">0</span>,
+    <span class="key">"updates_count"</span>: <span class="num">0</span>,
+    <span class="key">"has_pending_items"</span>: <span class="kw">true</span>
+  }
+]</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy not found or does not belong to you</li>
+      <li><code>403</code> — Policy exists but TPA services are not activated. Message includes current status</li>
+    </ul>
+
+    <h3 id="s9-2">9.2 Create Endorsement Request</h3>
+    <div class="endpoint"><span class="method method-post">POST</span> /policies/{purchase_request_id}/endorsement-requests/</div>
+    <p>Creates a new draft ER. Blocked if an open unfinished ER already exists.</p>
+    <p><strong>Request Body (JSON):</strong></p>
+    <table>
+      <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>purchase_request</code></td><td>integer</td><td>Yes</td><td>Policy (purchase request) ID</td></tr>
+        <tr><td><code>notes</code></td><td>string</td><td>No</td><td>Optional broker notes for this ER</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><strong>Note:</strong> <code>effective_date</code> is <strong>not set at ER creation</strong>. It is set individually per item (addition or deletion) when adding items via 9.6.</p>
+    <p><strong>Success Response (201 Created):</strong></p>
+    <pre class="json">{
+  <span class="key">"id"</span>: <span class="num">2</span>,
+  <span class="key">"er_display_id"</span>: <span class="str">"KAF-2026-001-ER-2"</span>,
+  <span class="key">"purchase_request"</span>: <span class="num">123</span>,
+  <span class="key">"company_name"</span>: <span class="str">"ABC Corporation"</span>,
+  <span class="key">"er_type"</span>: <span class="str">"mixed"</span>,
+  <span class="key">"status"</span>: <span class="str">"draft"</span>,
+  <span class="key">"effective_date"</span>: <span class="kw">null</span>,
+  <span class="key">"notes"</span>: <span class="kw">null</span>,
+  <span class="key">"rejection_reason"</span>: <span class="str">""</span>,
+  <span class="key">"operations_notes"</span>: <span class="kw">null</span>,
+  <span class="key">"created_by"</span>: <span class="num">5</span>,
+  <span class="key">"created_by_email"</span>: <span class="str">"broker@example.com"</span>,
+  <span class="key">"created_at"</span>: <span class="str">"2026-03-11T10:00:00Z"</span>,
+  <span class="key">"submitted_at"</span>: <span class="kw">null</span>,
+  <span class="key">"approved_at"</span>: <span class="kw">null</span>,
+  <span class="key">"items"</span>: [],
+  <span class="key">"additions_count"</span>: <span class="num">0</span>,
+  <span class="key">"deletions_count"</span>: <span class="num">0</span>,
+  <span class="key">"updates_count"</span>: <span class="num">0</span>,
+  <span class="key">"has_pending_items"</span>: <span class="bool">false</span>
+}</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>400</code> — Open ER exists: response includes <code>existing_er_id</code> and <code>existing_er_status</code></li>
+      <li><code>404</code> — Policy not found or does not belong to you</li>
+      <li><code>403</code> — Policy exists but TPA services are not activated. Message includes current status</li>
+    </ul>
+    <p class="note"><strong>Open ER Gate:</strong> Blocked if any ER with status <code>draft</code>, <code>pending</code>, or <code>partially_approved</code> exists. Exception: <code>partially_approved</code> with all items finalized (zero in <code>pending</code> approval) is allowed through.</p>
+
+    <h3 id="s9-3">9.3 Get Endorsement Request Details</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /endorsement-requests/{er_id}/</div>
+    <p>Returns full ER details with all nested items.</p>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">{
+  <span class="key">"id"</span>: <span class="num">1</span>,
+  <span class="key">"er_display_id"</span>: <span class="str">"KAF-2026-001-ER-1"</span>,
+  <span class="key">"er_type"</span>: <span class="str">"mixed"</span>,
+  <span class="key">"status"</span>: <span class="str">"pending"</span>,
+  <span class="key">"effective_date"</span>: <span class="kw">null</span>,
+  <span class="key">"rejection_reason"</span>: <span class="str">""</span>,
+  <span class="key">"submitted_at"</span>: <span class="str">"2026-03-01T11:00:00Z"</span>,
+  <span class="key">"additions_count"</span>: <span class="num">1</span>,
+  <span class="key">"deletions_count"</span>: <span class="num">1</span>,
+  <span class="key">"updates_count"</span>: <span class="num">1</span>,
+  <span class="key">"items"</span>: [
+    {
+      <span class="key">"id"</span>: <span class="num">10</span>, <span class="key">"action_type"</span>: <span class="str">"addition"</span>,
+      <span class="key">"member_name"</span>: <span class="str">"Sara Ahmed"</span>, <span class="key">"member_national_id"</span>: <span class="str">"30001011234567"</span>,
+      <span class="key">"temp_member_data"</span>: { <span class="str">"...all member fields..."</span> },
+      <span class="key">"required_document_type"</span>: <span class="kw">null</span>, <span class="key">"document_url"</span>: <span class="kw">null</span>,
+      <span class="key">"approval_status"</span>: <span class="str">"pending"</span>
+    },
+    {
+      <span class="key">"id"</span>: <span class="num">11</span>, <span class="key">"action_type"</span>: <span class="str">"deletion"</span>,
+      <span class="key">"policy_member"</span>: <span class="num">45</span>, <span class="key">"member_name"</span>: <span class="str">"Mohamed Hassan"</span>,
+      <span class="key">"effective_date"</span>: <span class="str">"2026-04-01"</span>, <span class="key">"approval_status"</span>: <span class="str">"pending"</span>
+    },
+    {
+      <span class="key">"id"</span>: <span class="num">12</span>, <span class="key">"action_type"</span>: <span class="str">"update"</span>,
+      <span class="key">"policy_member"</span>: <span class="num">22</span>, <span class="key">"member_name"</span>: <span class="str">"Ahmed Ali"</span>,
+      <span class="key">"update_fields_data"</span>: {
+        <span class="key">"name"</span>: { <span class="key">"old"</span>: <span class="str">"Ahmed Ali"</span>, <span class="key">"new"</span>: <span class="str">"Ahmed Ali Hassan"</span> },
+        <span class="key">"mobile_number"</span>: { <span class="key">"old"</span>: <span class="str">"01012345678"</span>, <span class="key">"new"</span>: <span class="str">"01098765432"</span> }
+      },
+      <span class="key">"required_document_type"</span>: <span class="str">"National ID"</span>,
+      <span class="key">"document_url"</span>: <span class="str">"https://appstaging.kaf.com.eg/private/..."</span>,
+      <span class="key">"approval_status"</span>: <span class="str">"pending"</span>
+    }
+  ]
+}</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul><li><code>404</code> — ER not found or does not belong to you</li></ul>
+
+    <h3 id="s9-4">9.4 Cancel Endorsement Request</h3>
+    <div class="endpoint"><span class="method method-post">POST</span> /endorsement-requests/{er_id}/cancel/</div>
+    <p>Cancel a <strong>draft</strong> endorsement request. Changes status from <code>draft</code> to <code>cancelled</code>. Only available while the ER is still in <code>draft</code> status — once submitted (<code>pending</code>), the broker cannot cancel.</p>
+    <p><strong>Success Response (200 OK):</strong> Returns full ER object with <code>status='cancelled'</code>.</p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — ER not found, not in <code>draft</code> status, or does not belong to you</li>
+    </ul>
+
+    <h3 id="s9-5">9.5 Add Item to Endorsement Request</h3>
+    <div class="endpoint"><span class="method method-post">POST</span> /endorsement-requests/{er_id}/items/</div>
+    <p>Adds a single item to a draft ER. Supports <code>addition</code>, <code>deletion</code>, and <code>update</code> action types. Accepts JSON or <code>multipart/form-data</code> (required when attaching a document).</p>
+    <p>After every item is added, the ER's <code>er_type</code> is auto-recalculated (<code>addition</code> / <code>deletion</code> / <code>update</code> / <code>mixed</code>).</p>
+
+    <p><strong>Addition item:</strong></p>
+    <pre class="json">{
+  <span class="key">"action_type"</span>: <span class="str">"addition"</span>,
+  <span class="key">"temp_member_data"</span>: {
+    <span class="key">"name"</span>: <span class="str">"Sara Ahmed"</span>,
+    <span class="key">"date_of_birth"</span>: <span class="str">"2000-01-01"</span>,
+    <span class="key">"member_type"</span>: <span class="str">"employee"</span>,
+    <span class="key">"national_id"</span>: <span class="str">"30001011234567"</span>,
+    <span class="key">"staff_id"</span>: <span class="str">"EMP005"</span>,
+    <span class="key">"mobile_number"</span>: <span class="str">"01012345678"</span>,
+    <span class="key">"country"</span>: <span class="str">"Egypt"</span>,
+    <span class="key">"medical_category_id"</span>: <span class="str">"K100"</span>,
+    <span class="key">"life_category_id"</span>: <span class="str">"100"</span>
+  },
+  <span class="key">"effective_date"</span>: <span class="str">"2026-04-01"</span>
+}</pre>
+    <p class="note">Data stored as-is. Deep validation (NID, duplicates, staff IDs, document rules, medical category plan check) runs on <strong>submit</strong>, not at item creation.</p>
+    <p class="note"><strong>Category fields:</strong> <code>medical_category_id</code> and <code>life_category_id</code> accept either integer IDs or category name strings (e.g. <code>"K100"</code>, <code>"100"</code>). Names are resolved to IDs automatically.</p>
+    <p class="note"><strong>Life category normalisation (enforced at creation):</strong> if <code>member_type</code> is <code>spouse</code> or <code>child</code>, any supplied <code>life_category_id</code> is stripped to <code>null</code> before storage.</p>
+
+    <p><strong>Deletion item:</strong></p>
+    <pre class="json">{
+  <span class="key">"action_type"</span>: <span class="str">"deletion"</span>,
+  <span class="key">"policy_member"</span>: <span class="num">45</span>,
+  <span class="key">"effective_date"</span>: <span class="str">"2026-04-01"</span>
+}</pre>
+    <p><strong>Validations (deletion):</strong> <code>policy_member</code> must be <code>is_active=True</code> and belong to this policy.</p>
+    <p class="note"><strong>Employee cascade (enforced at submit, not at creation):</strong> if this member is an employee, all of their active dependents must also be added as deletion items before the ER can be submitted.</p>
+
+    <p><strong>Update item (non-transactional):</strong></p>
+    <pre class="json">{
+  <span class="key">"action_type"</span>: <span class="str">"update"</span>,
+  <span class="key">"policy_member"</span>: <span class="num">22</span>,
+  <span class="key">"update_fields_data"</span>: {
+    <span class="key">"name"</span>: { <span class="key">"old"</span>: <span class="str">"Ahmed Ali"</span>, <span class="key">"new"</span>: <span class="str">"Ahmed Ali Hassan"</span> },
+    <span class="key">"mobile_number"</span>: { <span class="key">"old"</span>: <span class="str">"01012345678"</span>, <span class="key">"new"</span>: <span class="str">"01098765432"</span> }
+  }
+}</pre>
+    <p><strong>Editable fields:</strong> <code>name</code> and <code>mobile_number</code> only. All other fields require deletion + re-addition.</p>
+    <p><strong>Validations (update):</strong></p>
+    <ul>
+      <li><code>policy_member</code> must be active and belong to this policy</li>
+      <li>Only <code>name</code> and <code>mobile_number</code> keys allowed — any other key returns <code>400</code></li>
+      <li><code>name</code>: non-empty; Arabic/English letters, spaces, hyphens, apostrophes only</li>
+      <li><code>mobile_number</code>: digits only; 10-digit input auto-prefixed with <code>0</code>; must be 11 digits</li>
+      <li>Old values auto-filled from current member if not provided</li>
+      <li><strong>Name change → <code>required_document_type</code> auto-set to <code>National ID</code></strong> — must upload National ID document before ER can be submitted</li>
+    </ul>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>400</code> — ER not in draft, invalid action_type, invalid category name, validation failure</li>
+      <li><code>404</code> — ER not found, policy_member not found or not active</li>
+    </ul>
+
+    <h3 id="s9-6a">9.6 Export ER Template (Excel)</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /endorsement-requests/{er_id}/export-template/</div>
+    <p>Download an Excel template pre-populated with all active policy members. The broker edits this file offline — adds new rows for additions, changes Name or Phone on existing rows for updates — then re-imports it via the import endpoint.</p>
+    <p><strong>Template columns:</strong> Name, Date of Birth, Country, Medical Category, Life Category, Member Type, National ID, Staff ID, Phone, Effective Date</p>
+    <ul>
+      <li>Medical/Life Category columns use <strong>names</strong> (e.g. K100), not IDs</li>
+      <li>Existing members have Effective Date blank</li>
+      <li>Any pending name/phone updates already in this ER are reflected in the export</li>
+    </ul>
+    <p><strong>Response:</strong> Excel file (<code>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</code>)</p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — ER not found, not in <code>draft</code> status, or does not belong to you</li>
+    </ul>
+
+    <h3 id="s9-6b">9.6 Import ER Excel</h3>
+    <div class="endpoint"><span class="method method-post">POST</span> /endorsement-requests/{er_id}/import/</div>
+    <p>Import a filled Excel template to bulk-create ER items. Mirrors the frontend import logic:</p>
+    <ul>
+      <li>Rows whose National ID matches an existing active member with changed name or phone → <strong>update</strong> items</li>
+      <li>Rows with no National ID match → <strong>addition</strong> items</li>
+      <li>Unchanged rows are silently skipped</li>
+    </ul>
+    <p>Existing ER items are <strong>NOT</strong> cleared — new items are appended. Category columns accept names (e.g. <code>K100</code>).</p>
+    <p><strong>Request:</strong> <code>multipart/form-data</code> with field <code>file</code> (Excel .xlsx)</p>
+    <p><strong>Success Response (201 Created):</strong></p>
+    <pre class="json">{
+  <span class="key">"message"</span>: <span class="str">"3 addition(s) and 1 update(s) imported."</span>,
+  <span class="key">"additions"</span>: <span class="num">3</span>,
+  <span class="key">"updates"</span>: <span class="num">1</span>,
+  <span class="key">"skipped"</span>: <span class="num">15</span>,
+  <span class="key">"er"</span>: { <span class="comment">... full ER object ...</span> }
+}</pre>
+    <p><strong>No changes detected (200 OK):</strong></p>
+    <pre class="json">{
+  <span class="key">"message"</span>: <span class="str">"No changes detected — all rows either already exist unchanged or are empty."</span>,
+  <span class="key">"additions"</span>: <span class="num">0</span>,
+  <span class="key">"updates"</span>: <span class="num">0</span>,
+  <span class="key">"skipped"</span>: <span class="num">20</span>
+}</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>400</code> — No file uploaded, invalid Excel, empty sheet</li>
+      <li><code>404</code> — ER not found, not in <code>draft</code> status, or does not belong to you</li>
+    </ul>
+
+    <h3 id="s9-7">9.7 Remove Item from Endorsement Request</h3>
+    <div class="endpoint"><span class="method method-delete">DELETE</span> /endorsement-requests/{er_id}/items/{item_id}/</div>
+    <p>Removes an item from a draft ER. Returns the updated ER object. When all items are removed, <code>er_type</code> resets to <code>addition</code>.</p>
+    <p><strong>Success Response (200 OK):</strong> Returns full updated ER object.</p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Item not found, ER not in draft, or does not belong to you</li>
+    </ul>
+
+    <h3 id="s9-8">9.8 Submit Endorsement Request</h3>
+    <div class="endpoint"><span class="method method-post">POST</span> /endorsement-requests/{er_id}/submit/</div>
+    <p>Submits a draft ER for operations team review. Runs full validation before changing status to <code>pending</code>.</p>
+    <p><strong>Validation Gates (in order):</strong></p>
+    <ol>
+      <li><strong>Not empty</strong> — ER must have ≥ 1 item</li>
+      <li><strong>Update items gate</strong> — every update item's <code>update_fields_data</code> must be non-empty and <code>old &ne; new</code> for each field</li>
+      <li><strong>Employee deletion cascade gate</strong> — for every deletion item targeting an employee, all of that employee's active dependents (spouse/child whose <code>staff_id</code> equals the employee's <code>staff_id</code> exactly, or starts with <code>&quot;{staff_id}-&quot;</code>, e.g. <code>EMP001-1</code>, <code>EMP001-2</code>) must also be present as deletion items in this ER. Returns <code>400</code> with a <code>details</code> list per employee showing <code>employee_name</code>, <code>employee_id</code>, and <code>missing_dependents</code> (id, name, member_type).</li>
+      <li><strong>Addition data validation:</strong>
+        <ul>
+          <li>Required fields: <code>name</code>, <code>date_of_birth</code>, <code>national_id</code>, <code>member_type</code></li>
+          <li>Egyptian NID: 14 digits; DOB encoded in NID must match <code>date_of_birth</code> (century code: <code>2</code>→1900s, <code>3</code>→2000s)</li>
+          <li>Non-Egyptian: passport/ID ≥ 4 characters</li>
+          <li>No duplicate NIDs within ER additions</li>
+          <li>No NID already in active policy members</li>
+          <li><code>staff_id</code> required; employee IDs unique; dependent IDs reference an existing employee and are auto-suffixed (<code>EMP001-1</code>, <code>EMP001-2</code>, …)</li>
+          <li><code>mobile_number</code>: 10 or 11 digits (10-digit auto-prefixed with <code>0</code>)</li>
+          <li><strong>Medical category plan restriction:</strong> <code>medical_category_id</code> must be one of the category IDs already in use by the policy's existing active members. If the policy has no members with categories yet (edge case), this check is skipped — mirrors the frontend dropdown which is pre-filtered to the policy's plans.</li>
+          <li><strong>Life category normalisation:</strong> any <code>life_category_id</code> present on a <code>spouse</code> or <code>child</code> addition item is set to <code>null</code> — dependents cannot hold a life insurance category.</li>
+        </ul>
+      </li>
+      <li><strong>Document requirements</strong> (only when <code>today &gt; inception_date + 30 days</code>):
+        <ul>
+          <li>Spouse addition → Marriage Certificate upload required</li>
+          <li>Child born &le; 30 days ago → no document needed</li>
+          <li><strong>Child born &gt; 30 days ago → ER BLOCKED entirely</strong> — broker must contact operations team</li>
+          <li>Update item with <code>name</code> change → National ID document required</li>
+        </ul>
+      </li>
+    </ol>
+    <p><strong>On success:</strong> <code>status → pending</code>, <code>submitted_at = now()</code>, GlobeMed alteration email sent.</p>
+    <p><strong>Success Response (200 OK):</strong> Returns the full updated ER object (same structure as 9.3).</p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>400</code> — Validation failed (NID errors, duplicates, missing staff ID, invalid medical category, missing dependents in employee deletion, missing documents, blocked child addition, etc.) — includes <code>details</code> array</li>
+      <li><code>404</code> — ER not found, not in draft, or does not belong to you</li>
+    </ul>
+
+    <hr>
+
     <!-- ══════════ WORKFLOW ══════════ -->
     <h2 id="workflow">Workflow Summary</h2>
-    <ol>
-      <li><strong>Login</strong> → get <code>access_token</code></li>
-      <li><strong>Create Lead</strong> (with optional doc uploads)</li>
-      <li><strong>Upload</strong> remaining lead documents (Tax ID, Commercial Registry, KYC, Broker of Record)</li>
-      <li><strong>Create Quotation</strong> (multipart with Excel members file) → <span class="status status-draft">draft</span></li>
-      <li><strong>Set Payment Frequency</strong> (optional, defaults to annual)</li>
-      <li><strong>Set Reimbursement</strong> (required before issuance)</li>
-      <li><strong>Upload Signed Document</strong> (PDF, required)</li>
-      <li><strong>Upload Alteration Form</strong> (optional, PDF)</li>
-      <li><strong>Update Members</strong> (national_id, staff_id, mobile_number)</li>
-      <li><strong>Submit for Approval</strong> → <span class="status status-pending">Pending Client Approval</span></li>
-      <li><strong>Submit for Issuance</strong> → <span class="status status-pending">pending issuance</span></li>
+    <p>Complete journey from onboarding a client to managing their active policy.</p>
+
+    <h3>Phase 1 — Quotation &amp; Issuance</h3>
+    <div class="flow-v">
+      <div class="flow-v-row">
+        <span class="fn fn-purple fn-pill">Login</span>
+        <span class="fn-label">→ obtain <code>access_token</code> + <code>refresh_token</code> (1.1)</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-blue">Create Lead</span>
+        <span class="fn-label">company info + optional document uploads at creation (2.1)</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-blue">Upload 4 Documents</span>
+        <span class="fn-label">Tax ID · Commercial Registry · KYC · Broker of Record — all required (2.6–2.9)</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-yellow">Create Quotation</span>
+        <span class="fn-label">Excel members file + inception_date → status: <strong>draft</strong> (3.1)</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-grey">Configure</span>
+        <span class="fn-label">payment frequency (4.2) · reimbursement (4.4–4.5) · pool (4.6) · member NID/staff/phone (3.6)</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-grey">Upload Signed Document</span>
+        <span class="fn-label">signed PDF required before issuance (5.1)</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-yellow">Submit for Approval</span>
+        <span class="fn-label">→ status: <strong>Pending Client Approval</strong> (6.1) — docs/members still editable</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-yellow">Submit for Issuance</span>
+        <span class="fn-label">→ status: <strong>pending_issuance</strong> (6.2) — validates all prerequisites</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-green fn-pill">Issued → TPA Activated</span>
+        <span class="fn-label">admin issues &amp; activates TPA → <strong>tpa_services_activated</strong> → Policy Management unlocked</span>
+      </div>
+    </div>
+
+    <ol class="step-list">
+      <li><strong>Login</strong> (1.1)
+        <small>POST /auth/login/ · Refresh expired tokens at /auth/token/refresh/ without re-login</small>
+      </li>
+      <li><strong>Create Lead</strong> (2.1)
+        <small>POST /leads/ · Optionally attach all 4 documents in the same multipart request to save round trips</small>
+      </li>
+      <li><strong>Upload all 4 lead documents</strong> (2.6–2.9) — required before issuance
+        <small>Tax ID · Commercial Registry · KYC · Broker of Record (PDF only) · Documents auto-propagate to all draft quotations</small>
+      </li>
+      <li><strong>Create Quotation</strong> (3.1) with Excel members file + inception_date
+        <small>POST /purchase-requests/ · Premium auto-calculated at creation · Status starts as <code>draft</code></small>
+      </li>
+      <li><strong>Configure quotation</strong> (4.1–4.6)
+        <small>Set payment frequency · Set reimbursement type (employee or company with bank details) · Set optional pool amount · Fill in member NID / staff_id / mobile_number</small>
+      </li>
+      <li><strong>Upload signed document</strong> (5.1) — required PDF
+        <small>POST /purchase-requests/{id}/upload-signed-document/ · Re-upload replaces previous file</small>
+      </li>
+      <li><strong>Submit for Approval</strong> (6.1) → <code>Pending Client Approval</code>
+        <small>Documents and member NID/staff/phone still editable at this stage</small>
+      </li>
+      <li><strong>Submit for Issuance</strong> (6.2) → <code>pending_issuance</code>
+        <small>All members must have NID + staff_id + mobile · Signed doc must exist · Reimbursement must be set · company_name_on_ecard must be set</small>
+      </li>
     </ol>
+
+    <h3>Phase 2 — Active Policy Management</h3>
+    <p>All features below require policy status <code>tpa_services_activated</code>:</p>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-card-icon">👥</div>
+        <div class="cap-card-title" style="color:#1e40af;">Members</div>
+        <div class="cap-card-body">View active members · View all members (active + inactive) · Search by name/NID/staff ID · Download active members Excel · Get individual member details</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-icon">🧾</div>
+        <div class="cap-card-title" style="color:#92400e;">Invoices</div>
+        <div class="cap-card-body">List invoices with settlement status · Get invoice details · Download invoice PDF · Download per-member premium breakdown Excel · Submit settlement with proof of payment</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-icon">📋</div>
+        <div class="cap-card-title" style="color:#9a3412;">Endorsement Requests</div>
+        <div class="cap-card-body">Add / remove / update members · Bulk import via Excel template · Submit to TPA for approval · Cancel draft ERs</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- ══════════ 8. POLICY MANAGEMENT ══════════ -->
+    <h2 id="policy-mgmt">8. Policy Management</h2>
+    <p>This section covers endpoints for managing TPA-activated policies. All endpoints in this section require the policy to have status <code>tpa_services_activated</code>.</p>
+
+    <h3 id="s8-1">8.1 List Active Members</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/members/</div>
+    <p>Returns only <strong>active members</strong> for a TPA-activated policy.</p>
+    <div class="callout">
+      <p><strong>⚠️ TPA Activation Required:</strong> Returns <code>403</code> with a descriptive message if the policy status is not <code>tpa_services_activated</code>. Returns <code>404</code> if the policy does not exist or does not belong to you.</p>
+    </div>
+    <p><strong>Query Parameters (optional):</strong></p>
+    <ul>
+      <li><code>search</code> — Search by name, national_id, or staff_id</li>
+    </ul>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">[
+  {
+    <span class="key">"id"</span>: <span class="num">1</span>,
+    <span class="key">"purchase_request"</span>: <span class="num">123</span>,
+    <span class="key">"name"</span>: <span class="str">"Ahmed Mohamed"</span>,
+    <span class="key">"date_of_birth"</span>: <span class="str">"1990-05-15"</span>,
+    <span class="key">"country"</span>: <span class="str">"Egypt"</span>,
+    <span class="key">"member_type"</span>: <span class="str">"employee"</span>,
+    <span class="key">"national_id"</span>: <span class="str">"29005151234567"</span>,
+    <span class="key">"staff_id"</span>: <span class="str">"EMP001"</span>,
+    <span class="key">"mobile_number"</span>: <span class="str">"01012345678"</span>,
+    <span class="key">"medical_category"</span>: <span class="num">1</span>,
+    <span class="key">"medical_category_name"</span>: <span class="str">"K100"</span>,
+    <span class="key">"life_category"</span>: <span class="num">3</span>,
+    <span class="key">"life_category_name"</span>: <span class="str">"Life A"</span>,
+    <span class="key">"premium"</span>: <span class="str">"5000.00"</span>,
+    <span class="key">"life_premium"</span>: <span class="str">"1200.00"</span>,
+    <span class="key">"is_active"</span>: <span class="bool">true</span>,
+    <span class="key">"activation_date"</span>: <span class="str">"2026-01-15"</span>,
+    <span class="key">"inception_date"</span>: <span class="str">"2026-01-15"</span>,
+    <span class="key">"coverage_end_date"</span>: <span class="str">"2027-01-14"</span>,
+    <span class="key">"tpa_card_number"</span>: <span class="str">"123456789"</span>,
+    <span class="key">"created_at"</span>: <span class="str">"2026-01-10T10:00:00Z"</span>,
+    <span class="key">"updated_at"</span>: <span class="str">"2026-01-15T14:30:00Z"</span>
+  }
+]</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy not found or does not belong to you</li>
+      <li><code>403</code> — Policy exists but TPA services are not activated. Message includes current status, e.g. <code>"Current policy status: \"Issued\"."</code></li>
+    </ul>
+
+    <h3 id="s8-2">8.2 List All Members (Active and Inactive)</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/members/all/</div>
+    <p>Returns <strong>all members</strong> (both active and inactive) for a TPA-activated policy.</p>
+    <div class="callout">
+      <p><strong>⚠️ TPA Activation Required:</strong> Returns <code>403</code> with a descriptive message if the policy status is not <code>tpa_services_activated</code>. Returns <code>404</code> if the policy does not exist or does not belong to you.</p>
+    </div>
+    <p><strong>Query Parameters (optional):</strong></p>
+    <ul>
+      <li><code>is_active</code> — Filter by active status (<code>true</code> or <code>false</code>)</li>
+      <li><code>search</code> — Search by name, national_id, or staff_id</li>
+    </ul>
+    <p><strong>Usage Examples:</strong></p>
+    <ul>
+      <li>Get all members: <code>GET /policies/123/members/all/</code></li>
+      <li>Get only active members: <code>GET /policies/123/members/all/?is_active=true</code></li>
+      <li>Get only inactive members: <code>GET /policies/123/members/all/?is_active=false</code></li>
+      <li>Search active members: <code>GET /policies/123/members/all/?is_active=true&search=Ahmed</code></li>
+    </ul>
+
+    <h3 id="s8-3">8.3 Download Active Members Excel</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/members/download/</div>
+    <p>Downloads an Excel file containing all <strong>active members</strong> for a TPA-activated policy.</p>
+    <div class="callout">
+      <p><strong>⚠️ TPA Activation Required:</strong> Returns <code>403</code> with a descriptive message if the policy status is not <code>tpa_services_activated</code>. Returns <code>404</code> if the policy does not exist or does not belong to you.</p>
+    </div>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <p>Returns an Excel file (<code>.xlsx</code>) with the following columns:</p>
+    <ul>
+      <li>Name</li>
+      <li>Date of Birth</li>
+      <li>Country</li>
+      <li>Medical Category</li>
+      <li>Life Category</li>
+      <li>Member Type</li>
+      <li>National ID</li>
+      <li>Staff ID</li>
+      <li>Phone Number</li>
+      <li>TPA Card Number</li>
+      <li>TPA Principle</li>
+      <li>Inception Date</li>
+      <li>Coverage End Date</li>
+    </ul>
+    <p><strong>File naming format:</strong> <code>PR{id}_{company_name}_active_members.xlsx</code></p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy not found, does not belong to you, or no active members found</li>
+      <li><code>403</code> — Policy exists but TPA services are not activated. Message includes current status</li>
+    </ul>
+
+    <h3 id="s8-4">8.4 Get Member Details</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /members/{member_id}/</div>
+    <p>Returns detailed information for a specific policy member.</p>
+    <div class="callout">
+      <p><strong>⚠️ TPA Activation Required:</strong> Returns <code>403</code> with a descriptive message if the member's policy status is not <code>tpa_services_activated</code>. Returns <code>404</code> if the member does not exist or does not belong to you.</p>
+    </div>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">{
+  <span class="key">"id"</span>: <span class="num">1</span>,
+  <span class="key">"purchase_request"</span>: <span class="num">123</span>,
+  <span class="key">"name"</span>: <span class="str">"Ahmed Mohamed"</span>,
+  <span class="key">"date_of_birth"</span>: <span class="str">"1990-05-15"</span>,
+  <span class="key">"country"</span>: <span class="str">"Egypt"</span>,
+  <span class="key">"member_type"</span>: <span class="str">"employee"</span>,
+  <span class="key">"national_id"</span>: <span class="str">"29005151234567"</span>,
+  <span class="key">"staff_id"</span>: <span class="str">"EMP001"</span>,
+  <span class="key">"mobile_number"</span>: <span class="str">"01012345678"</span>,
+  <span class="key">"medical_category"</span>: <span class="num">1</span>,
+  <span class="key">"medical_category_name"</span>: <span class="str">"K100"</span>,
+  <span class="key">"life_category"</span>: <span class="num">3</span>,
+  <span class="key">"life_category_name"</span>: <span class="str">"Life A"</span>,
+  <span class="key">"is_active"</span>: <span class="bool">true</span>,
+  <span class="key">"activation_date"</span>: <span class="str">"2026-01-15"</span>,
+  <span class="key">"inception_date"</span>: <span class="str">"2026-01-15"</span>,
+  <span class="key">"coverage_end_date"</span>: <span class="str">"2027-01-14"</span>,
+  <span class="key">"tpa_card_number"</span>: <span class="str">"123456789"</span>,
+  <span class="key">"created_at"</span>: <span class="str">"2026-01-10T10:00:00Z"</span>,
+  <span class="key">"updated_at"</span>: <span class="str">"2026-01-15T14:30:00Z"</span>
+}</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Member not found, does not belong to you, or policy status is not <code>tpa_services_activated</code></li>
+    </ul>
+
+    <hr>
+
+    <!-- ══════════ 8. INVOICES ══════════ -->
+    <h3 id="invoices" style="font-size:1.1rem;color:var(--purple);margin-bottom:4px;">Invoices</h3>
+    <div class="callout">
+      <p><strong>Accessible from <code>pending_issuance</code> status onward</strong> (includes <code>pending_review</code>, <code>pending_signature</code>, <code>issued</code>, <code>tpa_services_activated</code>).<br>
+      All invoice endpoints validate: <strong>(1)</strong> Ownership — policy must belong to authenticated broker. <strong>(2)</strong> Status — must be in the list above.</p>
+    </div>
+
+    <h3 id="s8-5">8.5 List All Invoices</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/invoices/</div>
+    <p>Returns all invoices for a policy. Each invoice includes its <code>settlement_status</code> and nested <code>settlement</code> details.</p>
+    <p><strong>invoice_type values:</strong> <code>initial</code>, <code>side_pool</code>, <code>other</code></p>
+    <p><strong>e_invoice_status values:</strong> <code>uploaded</code>, <code>not_yet</code></p>
+    <p><strong>settlement_status values:</strong> <code>pending</code> (awaiting admin review), <code>settled</code> (payment confirmed) — defaults to <code>pending</code> if no settlement submitted yet</p>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">[
+  {
+    <span class="key">"id"</span>: <span class="num">1</span>,
+    <span class="key">"invoice_number"</span>: <span class="str">"2026/SME-1-000001"</span>,
+    <span class="key">"coverage_start"</span>: <span class="str">"2026-01-15"</span>,
+    <span class="key">"coverage_end"</span>: <span class="str">"2027-01-14"</span>,
+    <span class="key">"net_amount"</span>: <span class="str">"50000.00"</span>,
+    <span class="key">"taxes_and_regulatory_fees"</span>: <span class="str">"7500.00"</span>,
+    <span class="key">"gross_amount"</span>: <span class="str">"57500.00"</span>,
+    <span class="key">"e_invoice_status"</span>: <span class="str">"not_yet"</span>,
+    <span class="key">"invoice_pdf"</span>: <span class="str">"/media/invoices/2026_SME_1_000001.pdf"</span>,
+    <span class="key">"settlement_status"</span>: <span class="str">"pending"</span>,
+    <span class="key">"settlement"</span>: {
+      <span class="key">"id"</span>: <span class="num">1</span>,
+      <span class="key">"settle_premium_status"</span>: <span class="str">"pending"</span>,
+      <span class="key">"collection_method"</span>: <span class="str">"bank_transfer"</span>,
+      <span class="key">"payment_date"</span>: <span class="str">"2026-01-20"</span>,
+      <span class="key">"collection_date"</span>: <span class="bool">null</span>,
+      <span class="key">"reference_number"</span>: <span class="str">"TXN123456"</span>
+    }
+  }
+]</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy not found or does not belong to you, or status not in allowed statuses</li>
+    </ul>
+
+    <h3 id="s8-6">8.6 Get Invoice Details</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/invoices/{invoice_id}/</div>
+    <p>Returns full details of a single invoice including settlement status and settlement details. Same response structure as a single item from 8.5.</p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy or invoice not found / does not belong to you</li>
+    </ul>
+
+    <h3 id="s8-7">8.7 Check Invoice Status</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/invoices/{invoice_id}/status/</div>
+    <p>Lightweight status check for an invoice and its settlement. Use this to poll settlement progress.</p>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">{
+  <span class="key">"invoice_id"</span>: <span class="num">1</span>,
+  <span class="key">"invoice_number"</span>: <span class="str">"2026/SME-1-000001"</span>,
+  <span class="key">"invoice_type"</span>: <span class="str">"initial"</span>,
+  <span class="key">"e_invoice_status"</span>: <span class="str">"not_yet"</span>,
+  <span class="key">"has_invoice_pdf"</span>: <span class="bool">true</span>,
+  <span class="key">"settlement_status"</span>: <span class="str">"pending"</span>,
+  <span class="key">"has_proof_of_payment"</span>: <span class="bool">true</span>,
+  <span class="key">"collection_method"</span>: <span class="str">"bank_transfer"</span>,
+  <span class="key">"payment_date"</span>: <span class="str">"2026-01-20"</span>
+}</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy or invoice not found</li>
+    </ul>
+
+    <h3 id="s8-8">8.8 Download Invoice PDF</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/invoices/{invoice_id}/download/</div>
+    <p>Downloads the invoice PDF. Returns binary PDF with <code>Content-Disposition: attachment; filename="invoice_{invoice_number}.pdf"</code>.</p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy/invoice not found, or no PDF has been uploaded for this invoice yet</li>
+    </ul>
+
+    <h3 id="s8-9">8.9 Download Members Premium Breakdown Excel</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/invoices/{invoice_id}/breakdown/</div>
+    <p>Downloads an Excel file (<code>.xlsx</code>) with all premium calculation members for this policy.</p>
+    <p><strong>Excel columns:</strong> Name, Date of Birth, Age, Country, Member Type, National ID, Staff ID, Mobile Number, Medical Category, Life Category, Medical Premium, Life Premium</p>
+    <p><strong>File naming format:</strong> <code>Invoice_{invoice_number}_{company_name}_breakdown.xlsx</code></p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy/invoice not found, no quotation, or no members found</li>
+    </ul>
+
+    <h3 id="s8-10">8.10 Settle Invoice (Submit Payment)</h3>
+    <div class="endpoint"><span class="method method-post">POST</span> /policies/{purchase_request_id}/invoices/{invoice_id}/settle/</div>
+    <p>Submits a settlement for an invoice. <strong>One settlement per invoice (upsert)</strong> — re-submitting updates the existing settlement.</p>
+    <p><strong>Content-Type:</strong> <code>multipart/form-data</code></p>
+    <p><strong>Settlement Flow:</strong></p>
+    <ol>
+      <li>Choose <code>collection_method</code>: <code>cheque</code> or <code>bank_transfer</code></li>
+      <li>Upload <code>proof_of_payment</code> file (required)</li>
+      <li>Provide <code>reference_number</code> (required for <code>bank_transfer</code>, optional for <code>cheque</code>)</li>
+      <li>Optionally provide <code>payment_date</code> (YYYY-MM-DD)</li>
+      <li>Settlement created with <code>settle_premium_status = pending</code></li>
+      <li>Admin reviews and marks it <code>settled</code></li>
+    </ol>
+    <p><strong>Request Fields:</strong></p>
+    <table>
+      <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>proof_of_payment</code></td><td>file</td><td>Yes</td><td>Proof of payment (PDF/image)</td></tr>
+        <tr><td><code>collection_method</code></td><td>string</td><td>Yes</td><td><code>cheque</code> or <code>bank_transfer</code></td></tr>
+        <tr><td><code>reference_number</code></td><td>string</td><td>Yes for bank_transfer</td><td>Transfer reference or cheque number</td></tr>
+        <tr><td><code>payment_date</code></td><td>string</td><td>No</td><td>Date of payment <code>YYYY-MM-DD</code></td></tr>
+      </tbody>
+    </table>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">{
+  <span class="key">"message"</span>: <span class="str">"Settlement submitted successfully. Pending admin review."</span>,
+  <span class="key">"invoice_id"</span>: <span class="num">1</span>,
+  <span class="key">"invoice_number"</span>: <span class="str">"2026/SME-1-000001"</span>,
+  <span class="key">"settlement"</span>: {
+    <span class="key">"id"</span>: <span class="num">1</span>,
+    <span class="key">"settle_premium_status"</span>: <span class="str">"pending"</span>,
+    <span class="key">"collection_method"</span>: <span class="str">"bank_transfer"</span>,
+    <span class="key">"payment_date"</span>: <span class="str">"2026-01-20"</span>,
+    <span class="key">"collection_date"</span>: <span class="str">"2026-01-01"</span>,
+    <span class="key">"reference_number"</span>: <span class="str">"TRX-123456"</span>
+  }
+}</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>400</code> — Missing <code>proof_of_payment</code>, invalid <code>collection_method</code>, missing <code>reference_number</code> for bank transfer, or invalid <code>payment_date</code></li>
+      <li><code>404</code> — Policy or invoice not found</li>
+    </ul>
+
+    <h3 id="s8-11">8.11 Download Proof of Payment</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/invoices/{invoice_id}/proof/</div>
+    <p>Downloads the proof of payment file for an invoice's settlement. Returns binary file with <code>Content-Disposition: attachment; filename="proof_{invoice_number}.pdf"</code>.</p>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Policy/invoice not found, or no proof of payment uploaded yet</li>
+    </ul>
 
     <hr>
 
     <!-- ══════════ STATUS FLOW ══════════ -->
-    <h2 id="status-flow">Status Flow</h2>
-    <div class="flow">
-      <span class="flow-node status-draft">Draft</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-node status-pending">Pending Client Approval</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-node status-pending">Pending Issuance</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-node status-issued">Issued</span>
+    <h2 id="status-flow">Status Flows</h2>
+
+    <!-- Quotation / Policy Status -->
+    <div class="diagram-section">
+      <div class="diagram-section-title">Quotation / Policy Lifecycle</div>
+      <div class="flow-v">
+        <div class="flow-v-row">
+          <span class="fn fn-grey">draft</span>
+          <span class="fn-label">created — freely editable (frequency, reimbursement, members, docs)</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-yellow">pending_documents</span>
+          <span class="fn-label">Pending Client Approval — docs &amp; member NID/staff/phone still editable</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-yellow">pending_issuance</span>
+          <span class="fn-label">all prerequisites met — awaiting admin issuance — fully locked</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-green">issued</span>
+          <span class="fn-label">policy issued by admin</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-green fn-pill">tpa_services_activated</span>
+          <span class="fn-label">TPA configured — members &amp; invoices &amp; ERs available</span>
+        </div>
+        <div style="width:100%; border-top:1px dashed var(--kaf-purple-border); margin: 16px 0 10px;"></div>
+        <div style="font-size:12px; color:var(--kaf-muted); font-weight:600; margin-bottom:8px;">Other outcomes (terminal states):</div>
+        <div class="flow-v-extra">
+          <div class="flow-v-extra-row">
+            <span class="fn fn-red">rejected</span>
+            <span class="flow-v-extra-label">admin rejects at any pre-issuance stage</span>
+          </div>
+          <div class="flow-v-extra-row">
+            <span class="fn fn-grey">expired</span>
+            <span class="flow-v-extra-label">auto-expires 30 days after creation if not advanced to pending_issuance</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Status</th><th>Description</th><th>Editable?</th></tr></thead>
+        <tbody>
+          <tr><td><span class="status status-draft">draft</span></td><td>Initial state after quotation creation</td><td>✅ Fully editable</td></tr>
+          <tr><td><span class="status status-pending">Pending Client Approval</span></td><td>Submitted for client review; awaiting broker to push for issuance</td><td>⚠️ Docs + members only</td></tr>
+          <tr><td><span class="status status-pending">pending_issuance</span></td><td>All docs submitted, awaiting admin to issue</td><td>❌ Locked</td></tr>
+          <tr><td><span class="status status-issued">issued</span></td><td>Policy issued by admin</td><td>❌ Read-only</td></tr>
+          <tr><td><span class="status status-issued">tpa_services_activated</span></td><td>TPA activated — Policy Management fully enabled</td><td>✅ Via Policy Mgmt endpoints</td></tr>
+          <tr><td><span class="status status-rejected">rejected</span></td><td>Rejected by admin — terminal</td><td>❌ Terminal</td></tr>
+          <tr><td><span class="status status-expired">expired</span></td><td>Auto-expired after 30 days — terminal</td><td>❌ Terminal</td></tr>
+        </tbody>
+      </table>
     </div>
-    <table>
-      <thead><tr><th>Status</th><th>Description</th></tr></thead>
-      <tbody>
-        <tr><td><span class="status status-draft">draft</span></td><td>Initial state after quotation creation</td></tr>
-        <tr><td><span class="status status-pending">Pending Client Approval</span></td><td>Submitted for client approval; documents and member data can still be updated</td></tr>
-        <tr><td><span class="status status-pending">pending_issuance</span></td><td>All documents submitted, waiting for admin to issue policy</td></tr>
-        <tr><td><span class="status status-issued">issued</span></td><td>Policy has been issued</td></tr>
-        <tr><td><span class="status status-rejected">rejected</span></td><td>Quotation was rejected</td></tr>
-        <tr><td><span class="status status-expired">expired</span></td><td>Auto-expired (30 days from creation)</td></tr>
-      </tbody>
-    </table>
+
+    <!-- ER Status -->
+    <div class="diagram-section">
+      <div class="diagram-section-title">Endorsement Request (ER) Status</div>
+      <div class="flow-v">
+        <div class="flow-v-row">
+          <span class="fn fn-grey">draft</span>
+          <span class="fn-label">ER created — add/remove items freely; export/import Excel</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-yellow">pending</span>
+          <span class="fn-label">submitted — validation passed, GlobeMed email sent, TPA reviewing</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div style="font-size:12px; color:var(--kaf-muted); font-weight:600; margin: 4px 0 8px 36px;">TPA review outcomes:</div>
+        <div class="flow-v-branches">
+          <div class="flow-v-branch">
+            <span class="fn fn-green">approved</span>
+            <span class="flow-v-branch-label">all items approved</span>
+          </div>
+          <div class="flow-v-branch">
+            <span class="fn fn-orange">partially_approved</span>
+            <span class="flow-v-branch-label">some items approved,<br>some rejected</span>
+          </div>
+          <div class="flow-v-branch">
+            <span class="fn fn-red">rejected</span>
+            <span class="flow-v-branch-label">all items rejected</span>
+          </div>
+          <div class="flow-v-branch">
+            <span class="fn fn-grey">cancelled</span>
+            <span class="flow-v-branch-label">broker cancelled<br>(from draft only)</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Status</th><th>Description</th><th>Who sets it</th></tr></thead>
+        <tbody>
+          <tr><td><span class="status status-draft">draft</span></td><td>ER being built — items freely editable</td><td>System on create</td></tr>
+          <tr><td><span class="status status-pending">pending</span></td><td>Submitted — TPA reviewing</td><td>Broker (9.8 Submit)</td></tr>
+          <tr><td><span class="status status-issued">approved</span></td><td>All items approved; members updated</td><td>Admin / TPA</td></tr>
+          <tr><td><span class="status status-pending">partially_approved</span></td><td>Mix of approved and rejected items</td><td>Admin / TPA</td></tr>
+          <tr><td><span class="status status-rejected">rejected</span></td><td>All items rejected</td><td>Admin / TPA</td></tr>
+          <tr><td><span class="status status-expired">cancelled</span></td><td>Broker cancelled a draft ER</td><td>Broker (9.4 Cancel)</td></tr>
+        </tbody>
+      </table>
+      <p class="note">The <strong>open-ER gate</strong> blocks creating a new ER if one already exists in <code>draft</code>, <code>pending</code>, or <code>partially_approved</code> with unresolved pending items. The error response includes <code>existing_er_id</code> and <code>existing_er_status</code>.</p>
+    </div>
+
+    <!-- Invoice Settlement Status -->
+    <div class="diagram-section">
+      <div class="diagram-section-title">Invoice Settlement Status</div>
+      <div class="flow-v">
+        <div class="flow-v-row">
+          <span class="fn fn-grey">unsettled</span>
+          <span class="fn-label">invoice generated by admin — no payment submitted yet</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-yellow">pending</span>
+          <span class="fn-label">broker submitted proof of payment — awaiting admin confirmation</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-green">settled</span>
+          <span class="fn-label">admin confirmed payment receipt</span>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>settlement_status</th><th>Description</th><th>Who sets it</th></tr></thead>
+        <tbody>
+          <tr><td><span class="status status-expired">unsettled</span></td><td>Invoice generated, no proof uploaded</td><td>System (on invoice creation)</td></tr>
+          <tr><td><span class="status status-pending">pending</span></td><td>Proof of payment uploaded by broker</td><td>Broker (8.10 Settle)</td></tr>
+          <tr><td><span class="status status-issued">settled</span></td><td>Admin confirmed receipt</td><td>Admin</td></tr>
+        </tbody>
+      </table>
+      <p class="note">One settlement per invoice (upsert). Re-submitting while <code>pending</code> replaces the previous proof of payment file. Accepted formats: PDF, JPG, PNG.</p>
+    </div>
+
+    <!-- Member Lifecycle -->
+    <div class="diagram-section">
+      <div class="diagram-section-title">Policy Member Lifecycle</div>
+      <div class="flow-v">
+        <div class="flow-v-row">
+          <span class="fn fn-grey">Quotation Member</span>
+          <span class="fn-label">exists during draft/pre-issuance in PremiumCalculationMember table</span>
+        </div>
+        <div class="flow-v-gap"></div>
+        <div class="flow-v-row">
+          <span class="fn fn-green">Active Member</span>
+          <span class="fn-label"><code>is_active = true</code> — policy issued and TPA activated</span>
+        </div>
+        <div style="width:100%; border-top:1px dashed var(--kaf-purple-border); margin: 16px 0 10px;"></div>
+        <div style="font-size:12px; color:var(--kaf-muted); font-weight:600; margin-bottom:8px;">ER-driven member changes (applied on ER approval):</div>
+        <div class="flow-v-extra">
+          <div class="flow-v-extra-row">
+            <span class="fn fn-blue" style="font-size:12px;">ER Addition</span>
+            <span class="flow-v-extra-label">→ new PolicyMember created with <code>is_active = true</code></span>
+          </div>
+          <div class="flow-v-extra-row">
+            <span class="fn fn-red" style="font-size:12px;">ER Deletion</span>
+            <span class="flow-v-extra-label">→ existing member set to <code>is_active = false</code></span>
+          </div>
+          <div class="flow-v-extra-row">
+            <span class="fn fn-orange" style="font-size:12px;">ER Update</span>
+            <span class="flow-v-extra-label">→ name and/or <code>mobile_number</code> updated in-place; <code>is_active</code> unchanged</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- ══════════ ER WORKFLOW ══════════ -->
+    <h2 id="er-workflow">Endorsement Request Workflow</h2>
+    <p>How to create and submit an ER to add, remove, or update members on a <code>tpa_services_activated</code> policy.</p>
+
+    <h3>Lifecycle Steps</h3>
+    <ol class="step-list">
+      <li><strong>Create ER</strong> (9.2) — POST /policies/{id}/endorsement-requests/
+        <small>Blocked by open-ER gate if a draft/pending/partially_approved ER already exists · Returns existing_er_id and existing_er_status on block</small>
+      </li>
+      <li><strong>Add items individually</strong> (9.5) — or bulk via Excel import (step 3)
+        <small>POST /endorsement-requests/{er_id}/items/ · Supports action_type: addition, deletion, update</small>
+      </li>
+      <li><strong>Export template + edit + import</strong> (9.6) — alternative bulk approach
+        <small>GET export-template/ → edit Excel offline → POST import/ · Additions for new rows · Updates for changed name/phone · Unchanged rows skipped</small>
+      </li>
+      <li><strong>Review ER items</strong> (9.3) — verify all items are correct
+        <small>GET /endorsement-requests/{er_id}/ · Remove individual items via 9.7 if needed · er_type recalculates automatically</small>
+      </li>
+      <li><strong>Submit ER</strong> (9.8) — runs all 7 validation gates
+        <small>POST /endorsement-requests/{er_id}/submit/ · Status → pending · GlobeMed alteration email sent automatically</small>
+      </li>
+      <li><strong>(If needed) Cancel ER</strong> (9.4) — only available while status is <code>draft</code>
+        <small>POST /endorsement-requests/{er_id}/cancel/ · Status draft → cancelled · Once submitted (pending) cancellation is not possible</small>
+      </li>
+    </ol>
+
+    <h3>ER Item Types</h3>
+    <div class="item-cards">
+      <div class="item-card" style="border:1.5px solid #93c5fd;">
+        <span class="fn fn-blue" style="margin-bottom:10px;">Addition</span>
+        <p style="font-size:12.5px; margin:0; color:var(--kaf-muted);">Add a new member. Provide full <code>temp_member_data</code>: name, DOB, NID, member_type, medical_category_id (name or ID accepted), country, staff_id, mobile. Validated deeply at submit.</p>
+      </div>
+      <div class="item-card" style="border:1.5px solid #fca5a5;">
+        <span class="fn fn-red" style="margin-bottom:10px;">Deletion</span>
+        <p style="font-size:12.5px; margin:0; color:var(--kaf-muted);">Remove an active member. Provide <code>policy_member</code> ID (must be active and belong to this policy). <strong>Employee cascade rule:</strong> all active dependents (matched by staff_id) must also be in the deletion list.</p>
+      </div>
+      <div class="item-card" style="border:1.5px solid #fdba74;">
+        <span class="fn fn-orange" style="margin-bottom:10px;">Update</span>
+        <p style="font-size:12.5px; margin:0; color:var(--kaf-muted);">Update <code>name</code> or <code>mobile_number</code> of an active member. Old values are auto-filled from the current record. Name change auto-sets <code>required_document_type = National ID</code>.</p>
+      </div>
+    </div>
+
+    <h3>Submit Validation Gates (9.8)</h3>
+    <p>All 7 gates must pass in order for the ER to be submitted:</p>
+    <ul class="gate-list">
+      <li><span class="gate-badge">Gate 1</span><div><strong>Not Empty</strong> — ER must have at least 1 item. Returns <code>400: Cannot submit an empty endorsement request</code></div></li>
+      <li><span class="gate-badge">Gate 2</span><div><strong>Update Items Valid</strong> — every update item must have <code>update_fields_data</code> with <code>old ≠ new</code> for each field included</div></li>
+      <li><span class="gate-badge warn">Gate 3</span><div><strong>Employee Deletion Cascade</strong> — if an employee is being deleted, all their active dependents (matched by <code>staff_id</code> prefix, e.g. <code>EMP001-1</code>) must also have deletion items. Returns list of missing dependents per employee.</div></li>
+      <li><span class="gate-badge">Gate 4</span><div><strong>Addition Data Validation</strong> — NID 14-digit format + DOB cross-check; no duplicate NIDs within ER or against active policy members; staff ID uniqueness; 11-digit mobile number</div></li>
+      <li><span class="gate-badge warn">Gate 5</span><div><strong>Medical Category Restriction</strong> — <code>medical_category_id</code> for additions must already be used by at least one active policy member (skipped if policy has no categorised active members yet)</div></li>
+      <li><span class="gate-badge">Gate 6</span><div><strong>Life Category Normalisation</strong> — <code>life_category_id</code> on any spouse or child addition item is automatically set to <code>null</code></div></li>
+      <li><span class="gate-badge warn">Gate 7</span><div><strong>Document Requirements</strong> (applies when <code>today &gt; inception_date + 30 days</code>): spouse → Marriage Certificate required; child born ≤ 30 days → allowed; child born &gt; 30 days → ER blocked entirely; name-change update → National ID document required</div></li>
+    </ul>
+
+    <h3>Excel Export / Import Workflow</h3>
+    <div class="flow-v">
+      <div class="flow-v-row">
+        <span class="fn fn-blue">Export Template</span>
+        <span class="fn-label">GET /endorsement-requests/{er_id}/export-template/ → downloads .xlsx pre-filled with all active members</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-grey">Edit Offline</span>
+        <span class="fn-label">add new rows for additions · change Name or Phone Number on existing rows for updates · leave others unchanged</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-blue">Import Excel</span>
+        <span class="fn-label">POST /endorsement-requests/{er_id}/import/ · multipart field: <code>file</code></span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-branches">
+        <div class="flow-v-branch">
+          <span class="fn fn-green" style="font-size:12px;">New NID rows</span>
+          <span class="flow-v-branch-label">→ addition items created</span>
+        </div>
+        <div class="flow-v-branch">
+          <span class="fn fn-orange" style="font-size:12px;">Changed name/phone</span>
+          <span class="flow-v-branch-label">→ update items created</span>
+        </div>
+        <div class="flow-v-branch">
+          <span class="fn fn-grey" style="font-size:12px;">Unchanged rows</span>
+          <span class="flow-v-branch-label">→ silently skipped</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Import appends new items — it does NOT clear existing ER items. It can be called multiple times. Response includes <code>additions_created</code>, <code>updates_created</code>, <code>rows_skipped</code> counts, and the updated ER object.</p>
+
+    <hr>
+
+    <!-- ══════════ INVOICE WORKFLOW ══════════ -->
+    <h2 id="invoice-flow">Invoice Settling Workflow</h2>
+    <p>Invoices are generated by admin and visible to the broker from <code>pending_issuance</code> status onwards.</p>
+
+    <h3>Settling Steps</h3>
+    <ol class="step-list">
+      <li><strong>List Invoices</strong> (8.5) — review all invoices and their settlement status
+        <small>GET /policies/{id}/invoices/ · Includes settlement_status: unsettled / pending / settled</small>
+      </li>
+      <li><strong>Get Invoice Details</strong> (8.6) — check amount, due date, breakdown
+        <small>GET /policies/{id}/invoices/{invoice_id}/</small>
+      </li>
+      <li><strong>Download Invoice PDF</strong> (8.8) — optional, review the document
+        <small>GET /policies/{id}/invoices/{invoice_id}/download/</small>
+      </li>
+      <li><strong>Download Members Breakdown</strong> (8.9) — optional, per-member premium Excel
+        <small>GET /policies/{id}/invoices/{invoice_id}/breakdown/ · Returns .xlsx with Medical + Life premium per member</small>
+      </li>
+      <li><strong>Settle Invoice</strong> (8.10) — upload proof of payment
+        <small>POST /policies/{id}/invoices/{invoice_id}/settle/ · multipart: proof_of_payment (PDF/JPG/PNG) + optional amount + collection_date · settlement_status → pending</small>
+      </li>
+      <li><strong>Admin confirms</strong> — settlement_status changes to <code>settled</code>
+        <small>No broker action needed · Poll 8.7 Check Invoice Status to track confirmation</small>
+      </li>
+    </ol>
+
+    <h3>Settlement Flow</h3>
+    <div class="flow-v">
+      <div class="flow-v-row">
+        <span class="fn fn-grey">Invoice Generated</span>
+        <span class="fn-label">settlement_status: <strong>unsettled</strong> — visible from pending_issuance onwards</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-blue">Download &amp; Review</span>
+        <span class="fn-label">optional — invoice PDF (8.8) + per-member premium breakdown Excel (8.9)</span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-yellow">Submit Settlement</span>
+        <span class="fn-label">upload proof of payment → settlement_status: <strong>pending</strong></span>
+      </div>
+      <div class="flow-v-gap"></div>
+      <div class="flow-v-row">
+        <span class="fn fn-green">Settled</span>
+        <span class="fn-label">admin confirms → settlement_status: <strong>settled</strong></span>
+      </div>
+    </div>
+    <p class="note">Use endpoint <strong>8.7 Check Invoice Status</strong> (<code>GET /policies/{id}/invoices/{invoice_id}/status/</code>) to poll for status changes without fetching the full invoice object. Download proof of payment file via <strong>8.11</strong>.</p>
 
     <hr>
 
@@ -1427,6 +2558,26 @@
         <tr><td>7.1</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-contract/</code></td><td>Download contract PDF (issued only)</td></tr>
         <tr><td>7.2</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-signed-quotation/</code></td><td>Download signed quotation PDF</td></tr>
         <tr><td>7.3</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-quotation-pdf/</code></td><td>Download quotation proposal PDF (any status)</td></tr>
+        <tr><td>8.1</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/members/</code></td><td>List active members (TPA-activated only)</td></tr>
+        <tr><td>8.2</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/members/all/</code></td><td>List all members — active and inactive (TPA-activated only)</td></tr>
+        <tr><td>8.3</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/members/download/</code></td><td>Download active members Excel (TPA-activated only)</td></tr>
+        <tr><td>8.4</td><td><span class="method method-get">GET</span></td><td><code>/members/{id}/</code></td><td>Get member details (TPA-activated only)</td></tr>
+        <tr><td>8.5</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/invoices/</code></td><td>List all invoices with settlement status</td></tr>
+        <tr><td>8.6</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/invoices/{invoice_id}/</code></td><td>Get invoice details with settlement status</td></tr>
+        <tr><td>8.7</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/invoices/{invoice_id}/status/</code></td><td>Check invoice and settlement status</td></tr>
+        <tr><td>8.8</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/invoices/{invoice_id}/download/</code></td><td>Download invoice PDF</td></tr>
+        <tr><td>8.9</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/invoices/{invoice_id}/breakdown/</code></td><td>Download members premium breakdown Excel</td></tr>
+        <tr><td>8.10</td><td><span class="method method-post">POST</span></td><td><code>/policies/{id}/invoices/{invoice_id}/settle/</code></td><td>Submit settlement with proof of payment</td></tr>
+        <tr><td>8.11</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/invoices/{invoice_id}/proof/</code></td><td>Download proof of payment</td></tr>
+        <tr><td>9.1</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/endorsement-requests/</code></td><td>List all ERs (optional <code>?status=</code> filter)</td></tr>
+        <tr><td>9.2</td><td><span class="method method-post">POST</span></td><td><code>/policies/{id}/endorsement-requests/</code></td><td>Create ER (open-ER gate enforced)</td></tr>
+        <tr><td>9.3</td><td><span class="method method-get">GET</span></td><td><code>/endorsement-requests/{er_id}/</code></td><td>Get ER detail with all nested items</td></tr>
+        <tr><td>9.4</td><td><span class="method method-post">POST</span></td><td><code>/endorsement-requests/{er_id}/cancel/</code></td><td>Cancel ER (draft → cancelled)</td></tr>
+        <tr><td>9.5</td><td><span class="method method-post">POST</span></td><td><code>/endorsement-requests/{er_id}/items/</code></td><td>Add item (addition / deletion / update)</td></tr>
+        <tr><td>9.6</td><td><span class="method method-get">GET</span></td><td><code>/endorsement-requests/{er_id}/export-template/</code></td><td>Export ER template (Excel with active members)</td></tr>
+        <tr><td>9.6</td><td><span class="method method-post">POST</span></td><td><code>/endorsement-requests/{er_id}/import/</code></td><td>Import filled Excel to bulk-create ER items</td></tr>
+        <tr><td>9.7</td><td><span class="method method-delete">DELETE</span></td><td><code>/endorsement-requests/{er_id}/items/{item_id}/</code></td><td>Remove item from draft ER</td></tr>
+        <tr><td>9.8</td><td><span class="method method-post">POST</span></td><td><code>/endorsement-requests/{er_id}/submit/</code></td><td>Submit ER for operations review</td></tr>
       </tbody>
     </table>
 
