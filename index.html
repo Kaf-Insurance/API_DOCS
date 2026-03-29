@@ -1044,7 +1044,7 @@
     <p><strong>Success:</strong> <code>201 Created</code> — returns the full lead object.</p>
     <p><strong>Errors:</strong></p>
     <ul>
-      <li><code>400</code> — Missing required fields, invalid mobile number, or duplicate company name.</li>
+      <li><code>400</code> — Missing required fields, invalid mobile number, or duplicate company name (returns the existing lead ID if duplicate)</li>
       <li><code>401</code> — Missing or invalid access token.</li>
     </ul>
 
