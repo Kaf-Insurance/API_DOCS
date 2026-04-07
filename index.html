@@ -784,7 +784,7 @@
       <img src="https://cdn.prod.website-files.com/66cda1fb23a068f9c28860b2/66dc1d41973146c2ff7c3881_LOGO.avif" alt="KAF">
     </a>
     <p>SME Brokerage API</p>
-    <span class="version">V1.0 &bull; Staging</span>
+    <span class="version">V1.1 &bull; Staging</span>
   </div>
   <nav>
     <a class="section-title">Authentication</a>
@@ -818,6 +818,7 @@
     <a href="#s4-4"><span class="num">4.4</span>Set Employee</a>
     <a href="#s4-5"><span class="num">4.5</span>Set Company</a>
     <a href="#s4-6"><span class="num">4.6</span>Pool (Optional)</a>
+    <a href="#s4-7"><span class="num">4.7</span>Upload Member Data (Excel)</a>
 
     <a class="section-title">Document Uploads</a>
     <a href="#s5-1"><span class="num">5.1</span>Signed Document</a>
@@ -870,7 +871,7 @@
 
   <!-- ── Hero ── -->
   <header class="hero">
-    <h1>SME Brokerage API V1 <span class="version-badge">v1.0</span></h1>
+    <h1>SME Brokerage API V1 <span class="version-badge">v1.1</span></h1>
     <p class="subtitle">KAF Life Insurance — Integration Documentation</p>
     <div class="base-url-block">
       <div class="base-url-label">Base URL</div>
@@ -892,6 +893,18 @@
 
     <!-- ── What's New ── -->
     <div class="callout">
+      <h3>What's New — March 31, 2026</h3>
+      <p><strong>Member Data Upload Endpoint (4.7)</strong><br>
+      New endpoint <code>POST /purchase-requests/{id}/upload-member-data/</code> to upload Excel files with member data. The file is validated for National ID format, duplicate detection, Staff ID uniqueness, and mobile number format before updating member records.</p>
+      <p><strong>Member Validation Enhancement (3.6)</strong><br>
+      The Update Members endpoint now applies the same validation rules as the dashboard: National ID format and DOB cross-check, duplicate detection, Staff ID validation with auto-suffixing, and mobile number format validation.</p>
+      <p><strong>KAF Policy Number Generation Fix (6.2)</strong><br>
+      Fixed an issue where the KAF policy number wasn't being generated when submitting for issuance via the API. The policy number is now properly generated in format <code>SME{YEAR}1{6-digit counter}</code>.</p>
+      <p><strong>API Response Field Additions</strong><br>
+      Added missing fields to API responses: <code>kaf_policy_number</code>, <code>tpa_policy_number</code>, <code>payment_frequency</code>, and all 6 reimbursement bank fields.</p>
+      <p><strong>Payment Frequency Fix (6.2)</strong><br>
+      Fixed payment_frequency being set on the wrong model during submit-issuance. It's now correctly updated on the quotation with the same business rules as the dashboard.</p>
+      
       <h3>What's New — March 15, 2026</h3>
       <p><strong>Login Response Trimming (1.1)</strong><br>
       The login response now returns a trimmed user object. Removed fields: <code>height</code>, <code>weight</code>, <code>bmi</code>, <code>birth_date</code>, <code>gender</code>, <code>phone_number</code>, <code>fcm_token</code>, <code>signed_up</code>, <code>lang</code>. The response now includes only essential brokerage fields: <code>id</code>, <code>first_name</code>, <code>last_name</code>, <code>email</code>, <code>is_broker</code>, <code>broker_fra_id</code>, <code>broker_status</code>, <code>broker_data_confirmed</code>, <code>assigned_sales</code>, <code>assigned_sales_email</code>, <code>is_sales</code>.</p>
@@ -1308,7 +1321,21 @@
       <li><strong>Pending Client Approval:</strong> Only empty fields can be filled. Already-filled fields are locked.</li>
       <li><strong>Other statuses:</strong> Updates are completely blocked.</li>
     </ul>
+    <p><strong>Validations Applied:</strong></p>
+    <ul>
+      <li><strong>National ID:</strong> 14 digits for Egypt, min 4 characters for other countries, DOB cross-check for Egypt</li>
+      <li><strong>Duplicate Detection:</strong> No duplicate National IDs within the same policy</li>
+      <li><strong>Staff ID:</strong> Required for all members, unique for employees, auto-suffixed for dependents</li>
+      <li><strong>Mobile Number:</strong> 11 digits, auto-prefixed with 0 if 10 digits provided</li>
+    </ul>
     <p><strong>Success:</strong> <code>200 OK</code> — <code>{"message": "Successfully updated 2 members", "updated_count": 2}</code></p>
+    <p><strong>Error Response (400 Bad Request):</strong></p>
+    <pre class="json">{
+  <span class="key">"error"</span>: <span class="str">"National ID validation failed for some members"</span>,
+  <span class="key">"details"</span>: [
+    <span class="str">"Update 1: Ahmed Mohamed - National ID must be exactly 14 digits for Egypt"</span>
+  ]
+}</pre>
 
     <h3 id="s3-7">3.7 First Premium Breakdown</h3>
     <div class="endpoint"><span class="method method-get">GET</span> /purchase-requests/{id}/first-premium-breakdown/</div>
@@ -1434,6 +1461,53 @@
       </tbody>
     </table>
 
+    <h3 id="s4-7">4.7 Upload Member Data (Excel)</h3>
+    <div class="endpoint"><span class="method method-post">POST</span> /purchase-requests/{id}/upload-member-data/</div>
+    <p>Upload an Excel file with member data to update National ID, Staff ID, and Mobile Number for all members. The file is validated before saving and member records are updated automatically.</p>
+    <p><strong>Request:</strong> <code>multipart/form-data</code></p>
+    <ul>
+      <li><strong>Field:</strong> <code>uploaded_file</code> (file, required, .xlsx or .xls)</li>
+      <li><strong>Required columns in Excel:</strong> <code>Name</code>, <code>National ID</code>, <code>Mobile Number</code></li>
+      <li><strong>Optional columns:</strong> <code>Country English Name</code> (defaults to Egypt), <code>Staff ID</code></li>
+    </ul>
+    <p><strong>Validations Applied:</strong></p>
+    <ul>
+      <li><strong>National ID:</strong> 14 digits for Egypt, min 4 characters for other countries, DOB cross-check for Egypt</li>
+      <li><strong>Duplicate Detection:</strong> No duplicate National IDs within the same policy</li>
+      <li><strong>Staff ID:</strong> Required for all members, unique for employees, auto-suffixed for dependents</li>
+      <li><strong>Mobile Number:</strong> 11 digits, auto-prefixed with 0 if 10 digits provided</li>
+      <li><strong>Member Count:</strong> Must match the number of members in the quotation</li>
+    </ul>
+    <p><strong>Success Response (201 Created):</strong></p>
+    <pre class="json">{
+  <span class="key">"message"</span>: <span class="str">"Member data file uploaded and validated successfully. 15 members updated."</span>,
+  <span class="key">"purchase_request_id"</span>: <span class="num">123</span>,
+  <span class="key">"member_data_id"</span>: <span class="num">456</span>,
+  <span class="key">"is_validated"</span>: <span class="bool">true</span>,
+  <span class="key">"members_count"</span>: <span class="num">15</span>
+}</pre>
+    <p><strong>Error Response (400 Bad Request):</strong></p>
+    <pre class="json">{
+  <span class="key">"error"</span>: <span class="str">"National ID validation failed for some members"</span>,
+  <span class="key">"details"</span>: [
+    <span class="str">"Row 3: Ahmed Mohamed - National ID must be exactly 14 digits for Egypt"</span>
+  ]
+}</pre>
+    <table>
+      <thead><tr><th>Status</th><th>Error</th><th>Cause</th></tr></thead>
+      <tbody>
+        <tr><td>400</td><td><code>uploaded_file (Excel file) is required</code></td><td>No file uploaded</td></tr>
+        <tr><td>400</td><td><code>Member data file must be an Excel file (.xlsx or .xls)</code></td><td>Wrong file extension</td></tr>
+        <tr><td>400</td><td><code>Uploaded file is missing required columns</code></td><td>Missing Name, National ID, or Mobile Number column</td></tr>
+        <tr><td>400</td><td><code>National ID validation failed for some members</code></td><td>Invalid format or DOB mismatch</td></tr>
+        <tr><td>400</td><td><code>Duplicate National IDs found in members</code></td><td>Same National ID used by multiple members</td></tr>
+        <tr><td>400</td><td><code>Staff ID validation failed for some members</code></td><td>Missing or duplicate Staff IDs</td></tr>
+        <tr><td>400</td><td><code>Mobile number validation failed</code></td><td>Invalid format (not 11 digits)</td></tr>
+        <tr><td>400</td><td><code>Member count mismatch</code></td><td>File has different member count than quotation</td></tr>
+        <tr><td>404</td><td><code>Purchase request not found or does not belong to you</code></td><td>Wrong ID or not owner</td></tr>
+      </tbody>
+    </table>
+
     <hr>
 
     <!-- ══════════ 5. DOCUMENT UPLOADS ══════════ -->
@@ -1487,6 +1561,12 @@
       <li><strong>All members</strong> must have <code>national_id</code>, <code>staff_id</code>, and <code>mobile_number</code>.</li>
     </ol>
     <p><strong>Success:</strong> <code>200 OK</code> — returns quotation with status <code>pending_issuance</code>.</p>
+    <p><strong>On successful submission:</strong></p>
+    <ul>
+      <li><strong>KAF Policy Number</strong> is automatically generated in format <code>SME{YEAR}1{6-digit counter}</code></li>
+      <li>Lead fields (signature, contact, address, ecard name) are copied to the purchase request if not already set</li>
+      <li>Purchase request status changes to <code>pending_issuance</code></li>
+    </ul>
     <p><strong>Failure (400 — blockers found):</strong></p>
     <pre class="json">{
   <span class="key">"error"</span>: <span class="str">"Cannot submit for issuance. Please resolve the following issues:"</span>,
@@ -2585,6 +2665,7 @@
         <tr><td>4.4</td><td><span class="method method-patch">PATCH</span></td><td><code>/purchase-requests/{id}/reimbursement/</code></td><td>Set reimbursement (employee)</td></tr>
         <tr><td>4.5</td><td><span class="method method-patch">PATCH</span></td><td><code>/purchase-requests/{id}/reimbursement/</code></td><td>Set reimbursement (company)</td></tr>
         <tr><td>4.6</td><td><span class="method method-get">GET</span> <span class="method method-patch">PATCH</span></td><td><code>/purchase-requests/{id}/pool/</code></td><td>Get/Set pool (optional, draft/pending_documents)</td></tr>
+        <tr><td>4.7</td><td><span class="method method-post">POST</span></td><td><code>/purchase-requests/{id}/upload-member-data/</code></td><td>Upload member data Excel (with validation)</td></tr>
         <tr><td>5.1</td><td><span class="method method-post">POST</span></td><td><code>/purchase-requests/{id}/upload-signed-document/</code></td><td>Upload signed document</td></tr>
         <tr><td>6.1</td><td><span class="method method-post">POST</span></td><td><code>/purchase-requests/{id}/submit-for-approval/</code></td><td>Submit for approval</td></tr>
         <tr><td>6.2</td><td><span class="method method-post">POST</span></td><td><code>/purchase-requests/{id}/submit-issuance/</code></td><td>Submit for issuance</td></tr>
@@ -2619,7 +2700,7 @@
       <a href="https://www.kaf.com.eg/" target="_blank" rel="noopener noreferrer" title="Visit KAF" style="display:block; width:40px; margin:0 auto 12px;">
         <img src="https://cdn.prod.website-files.com/66cda1fb23a068f9c28860b2/66dc1d41973146c2ff7c3881_LOGO.avif" alt="KAF" style="width:40px; opacity:0.4; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='0.4'">
       </a>
-      KAF Life Insurance &copy; 2026 — SME Brokerage API V1
+      KAF Life Insurance &copy; 2026 — SME Brokerage API V1.1
     </div>
 
   </div><!-- /content -->
