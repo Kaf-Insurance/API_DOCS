@@ -1560,7 +1560,7 @@
       <li><strong>Reimbursement</strong> configured (type set; if <code>company</code>, all 6 bank fields filled).</li>
       <li><strong>All members</strong> must have <code>national_id</code>, <code>staff_id</code>, and <code>mobile_number</code>.</li>
     </ol>
-    <p><strong>Success:</strong> <code>200 OK</code> — returns quotation with status <code>pending_issuance</code>.</p>
+    <p><strong>Success:</strong> <code>200 OK</code> — returns quotation with status <code>pending_issuance</code> and draft contract.</p>
     <p><strong>On successful submission:</strong></p>
     <ul>
       <li><strong>KAF Policy Number</strong> is automatically generated in format <code>SME{YEAR}1{6-digit counter}</code></li>
@@ -1900,6 +1900,72 @@
     <p><strong>Error Responses:</strong></p>
     <ul>
       <li><code>404</code> — Policy/invoice not found, or no proof of payment uploaded yet</li>
+    </ul>
+
+    <h3 id="s8-12">8.12 Get Feedback</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /purchase-requests/{purchase_request_id}/get-feedback/</div>
+    <p>Returns any problems found in the uploaded data for a purchase request.</p>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <pre class="json">[
+  {
+    <span class="key">"purchase_request_id"</span>: <span class="num">110</span>,
+    <span class="key">"status"</span>: <span class="str">"pending"</span>,
+    <span class="key">"fields_to_update"</span>: [
+      <span class="str">"payment_frequency"</span>,
+      <span class="str">"lead_company_english_name"</span>
+    ],
+    <span class="key">"notes"</span>: <span class="str">""</span>,
+    <span class="key">"member_ids"</span>: <span class="kw">null</span>,
+    <span class="key">"created_by"</span>: <span class="str">"maryam@example.com"</span>,
+    <span class="key">"created_at"</span>: <span class="str">"2026-04-16T13:56:50.526168+02:00"</span>,
+    <span class="key">"resolved_at"</span>: <span class="kw">null</span>
+  },
+  {
+    <span class="key">"purchase_request_id"</span>: <span class="num">110</span>,
+    <span class="key">"status"</span>: <span class="str">"pending"</span>,
+    <span class="key">"fields_to_update"</span>: [
+      <span class="str">"member_national_id"</span>,
+      <span class="str">"member_staff_id"</span>,
+      <span class="str">"member_mobile"</span>
+    ],
+    <span class="key">"notes"</span>: <span class="str">""</span>,
+    <span class="key">"member_ids"</span>: {
+      <span class="key">"7903"</span>: [
+        <span class="str">"national_id"</span>
+      ],
+      <span class="key">"7904"</span>: [
+        <span class="str">"staff_id"</span>
+      ],
+      <span class="key">"7905"</span>: [
+        <span class="str">"mobile_number"</span>
+      ]
+    },
+    <span class="key">"created_by"</span>: <span class="str">"maryam@example.com"</span>,
+    <span class="key">"created_at"</span>: <span class="str">"2026-04-16T13:47:40.701066+02:00"</span>,
+    <span class="key">"resolved_at"</span>: <span class="kw">null</span>
+  },
+  {
+    <span class="key">"purchase_request_id"</span>: <span class="num">110</span>,
+    <span class="key">"status"</span>: <span class="str">"pending"</span>,
+    <span class="key">"fields_to_update"</span>: [
+      <span class="str">"company_english_name"</span>,
+      <span class="str">"tax_card_ocr_data"</span>,
+      <span class="str">"member_national_id"</span>
+    ],
+    <span class="key">"notes"</span>: <span class="str">"notes"</span>,
+    <span class="key">"member_ids"</span>: {
+      <span class="key">"7903"</span>: [
+        <span class="str">"national_id"</span>
+      ]
+    },
+    <span class="key">"created_by"</span>: <span class="str">"maryam@example.com"</span>,
+    <span class="key">"created_at"</span>: <span class="str">"2026-04-16T12:49:10.699845+02:00"</span>,
+    <span class="key">"resolved_at"</span>: <span class="kw">null</span>
+  }
+]</pre>
+    <p><strong>Error Responses:</strong></p>
+    <ul>
+      <li><code>404</code> — Purchase request not found</li>
     </ul>
 
     <hr>
