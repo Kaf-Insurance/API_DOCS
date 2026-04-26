@@ -928,6 +928,9 @@
       <p><strong>ER Type Determination Fix</strong><br>
       The <code>determine_er_type()</code> method now correctly returns <code>addition</code> (not <code>mixed</code>) when an ER has zero items, ensuring proper type reset after removing all items.</p>
 
+      <h3>What's New — April 26, 2026</h3>
+      <p><strong>Commercial Registry Office Name Field (3.1, 7.2)</strong><br>
+      New optional field <code>commercial_registry_office_name</code> can be provided when creating a lead or updating a lead via PATCH. This field is mandatory for issuance and can also be provided in the submit-issuance request body to resolve validation errors. If present on the lead, it's automatically copied to the purchase request during issuance.</p>
       <h3>What's New — March 12, 2026</h3>
       <p><strong>Quotations - Company Name on E-card Field (3.1)</strong><br>
       The Create Quotation endpoint now accepts an optional <code>company_name_on_ecard</code> field. This field specifies the company name as it should appear on the E-card and is required before submitting for issuance. If not provided during quotation creation, it must be set on the Lead or Purchase Request before issuance submission.</p>
@@ -1137,6 +1140,7 @@
         <tr><td><code>contact_person_title</code></td><td>string</td><td>Contact person title</td></tr>
         <tr><td><code>contact_person_mobile</code></td><td>string</td><td>11-digit Egyptian mobile number</td></tr>
         <tr><td><code>contact_person_email</code></td><td>string</td><td>Contact email address</td></tr>
+        <tr><td><code>commercial_registry_office_name</code></td><td>string</td><td>Commercial registry office name (required for issuance)</td></tr>
         <tr><td><code>tax_id_document</code></td><td>file</td><td>Tax ID document (PDF)</td></tr>
         <tr><td><code>commercial_registry_document</code></td><td>file</td><td>Commercial Registry document (PDF)</td></tr>
         <tr><td><code>kyc_document</code></td><td>file</td><td>KYC document (PDF)</td></tr>
@@ -1636,14 +1640,15 @@
 
     <h3 id="s7-2">7.2 Submit for Issuance (Pending Client Approval → Pending Issuance)</h3>
     <div class="endpoint"><span class="method method-post">POST</span> /purchase-requests/{id}/submit-issuance/</div>
-    <p><strong>No request body required.</strong> Validates ALL prerequisites at once and returns every blocker found.</p>
+    <p><strong>Request Body (optional):</strong> You can provide <code>commercial_registry_office_name</code> and <code>company_name_on_ecard</code> in the request body to resolve validation errors. If not provided, these fields are inherited from the lead.</p>
     <p><strong>Prerequisites (ALL must be met):</strong></p>
     <ol>
       <li>Status must be <code>pending_documents</code> (Pending Client Approval).</li>
       <li>Quotation must be associated with a lead.</li>
       <li><strong>Required fields</strong> must be filled (on either the lead or the quotation):
         <code>signature_name_ar</code>, <code>signature_title_ar</code>, <code>company_address_ar</code>,
-        <code>contact_person_name</code>, <code>contact_person_title</code>, <code>contact_person_mobile</code>, <code>contact_person_email</code></li>
+        <code>contact_person_name</code>, <code>contact_person_title</code>, <code>contact_person_mobile</code>, <code>contact_person_email</code>,
+        <code>commercial_registry_office_name</code>, <code>company_name_on_ecard</code></li>
       <li><strong>All 4 lead documents</strong> uploaded (Tax ID, Commercial Registry, KYC, Broker of Record).</li>
       <li><strong>Signed document</strong> uploaded to the quotation.</li>
       <li><strong>Reimbursement</strong> configured (type set; if <code>company</code>, all 6 bank fields filled).</li>
@@ -1653,7 +1658,7 @@
     <p><strong>On successful submission:</strong></p>
     <ul>
       <li><strong>KAF Policy Number</strong> is automatically generated in format <code>SME{YEAR}1{6-digit counter}</code></li>
-      <li>Lead fields (signature, contact, address, ecard name) are copied to the purchase request if not already set</li>
+      <li>Lead fields (signature, contact, address, ecard name, commercial registry office name) are copied to the purchase request if not already set</li>
       <li>Purchase request status changes to <code>pending_issuance</code></li>
     </ul>
     <p><strong>Failure (400 — blockers found):</strong></p>
@@ -2421,7 +2426,7 @@
         <small>Documents and member NID/staff/phone still editable at this stage</small>
       </li>
       <li><strong>Submit for Issuance</strong> (6.2) → <code>pending_issuance</code>
-        <small>All members must have NID + staff_id + mobile · Signed doc must exist · Reimbursement must be set · company_name_on_ecard must be set</small>
+        <small>All members must have NID + staff_id + mobile · Signed doc must exist · Reimbursement must be set · company_name_on_ecard must be set · commercial_registry_office_name must be set</small>
       </li>
     </ol>
 
