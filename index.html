@@ -831,9 +831,10 @@
     <a href="#s7-2"><span class="num">7.2</span>Submit for Issuance</a>
 
     <a class="section-title">Document Downloads</a>
-    <a href="#s8-1"><span class="num">8.1</span>Download Contract</a>
-    <a href="#s8-2"><span class="num">8.2</span>Download Signed Quotation</a>
-    <a href="#s8-3"><span class="num">8.3</span>Download Quotation PDF</a>
+    <a href="#s8-1"><span class="num">8.1</span>Download Draft Contract</a>
+    <a href="#s8-2"><span class="num">8.2</span>Download Contract</a>
+    <a href="#s8-3"><span class="num">8.3</span>Download Signed Quotation</a>
+    <a href="#s8-4"><span class="num">8.4</span>Download Quotation PDF</a>
 
     <a class="section-title">Policy Management</a>
     <a class="section-subtitle">Members</a>
@@ -897,6 +898,10 @@
 
     <!-- ── What's New ── -->
     <div class="callout">
+      <h3>What's New — April 28, 2026</h3>
+      <p><strong>Draft Contract Download Endpoint (8.1)</strong><br>
+      New endpoint <code>GET /purchase-requests/{id}/download-draft-contract/</code> to download the draft contract PDF. Available when status is <code>pending_issuance</code>, <code>pending_review</code>, <code>pending_signature</code>, <code>issued</code>, or <code>tpa_services_activated</code> and a draft contract has been generated. Returns the PDF with filename format <code>draft_contract_PR-{id}.pdf</code>.</p>
+      
       <h3>What's New — March 31, 2026</h3>
       <p><strong>Member Data Upload Endpoint (4.7)</strong><br>
       New endpoint <code>POST /purchase-requests/{id}/upload-member-data/</code> to upload Excel files with member data. The file is validated for National ID format, duplicate detection, Staff ID uniqueness, and mobile number format before updating member records.</p>
@@ -1696,7 +1701,16 @@
     <h2 id="document-downloads">8. Document Downloads</h2>
     <p>This section covers endpoints for downloading various policy documents.</p>
 
-    <h3 id="s8-1">8.1 Download Contract</h3>
+    <h3 id="s8-1">8.1 Download Draft Contract</h3>
+    <div class="endpoint"><span class="method method-get">GET</span> /purchase-requests/{id}/download-draft-contract/</div>
+    <p>Downloads the draft contract PDF for a purchase request.</p>
+    <div class="callout">
+      <p><strong>⚠️ Requirements:</strong> Available when status is <code>pending_issuance</code>, <code>pending_review</code>, <code>pending_signature</code>, <code>issued</code>, or <code>tpa_services_activated</code> and a draft contract has been generated. Returns <code>404</code> if the purchase request does not exist or does not belong to you. Returns <code>400</code> if the status is not in the allowed list. Returns <code>404</code> if the draft contract has not been generated yet.</p>
+    </div>
+    <p><strong>Success Response (200 OK):</strong></p>
+    <p>Returns the draft contract PDF file with filename format <code>draft_contract_PR-{id}.pdf</code>.</p>
+
+    <h3 id="s8-2">8.2 Download Contract</h3>
     <div class="endpoint"><span class="method method-get">GET</span> /purchase-requests/{id}/download-contract/</div>
     <p>Downloads the contract PDF for a policy when it is issued and TPA-activated.</p>
     <div class="callout">
@@ -1705,7 +1719,7 @@
     <p><strong>Success Response (200 OK):</strong></p>
     <p>Returns the contract PDF file with appropriate headers for download.</p>
 
-    <h3 id="s8-2">8.2 Download Signed Quotation</h3>
+    <h3 id="s8-3">8.3 Download Signed Quotation</h3>
     <div class="endpoint"><span class="method method-get">GET</span> /purchase-requests/{id}/download-signed-quotation/</div>
     <p>Downloads the signed quotation PDF for a policy.</p>
     <div class="callout">
@@ -1714,7 +1728,7 @@
     <p><strong>Success Response (200 OK):</strong></p>
     <p>Returns the signed quotation PDF file with appropriate headers for download.</p>
 
-    <h3 id="s8-3">8.3 Download Quotation PDF</h3>
+    <h3 id="s8-4">8.4 Download Quotation PDF</h3>
     <div class="endpoint"><span class="method method-get">GET</span> /purchase-requests/{id}/download-quotation-pdf/</div>
     <p>Downloads the quotation proposal PDF for a policy in any status.</p>
     <div class="callout">
@@ -2830,9 +2844,10 @@
         <tr><td>6.1</td><td><span class="method method-post">POST</span></td><td><code>/purchase-requests/{id}/upload-signed-document/</code></td><td>Upload signed document</td></tr>
         <tr><td>7.1</td><td><span class="method method-post">POST</span></td><td><code>/purchase-requests/{id}/submit-for-approval/</code></td><td>Submit for approval</td></tr>
         <tr><td>7.2</td><td><span class="method method-post">POST</span></td><td><code>/purchase-requests/{id}/submit-issuance/</code></td><td>Submit for issuance</td></tr>
-        <tr><td>8.1</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-contract/</code></td><td>Download contract PDF (when issued and TPA-activated only)</td></tr>
-        <tr><td>8.2</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-signed-quotation/</code></td><td>Download signed quotation PDF</td></tr>
-        <tr><td>8.3</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-quotation-pdf/</code></td><td>Download quotation proposal PDF (any status)</td></tr>
+        <tr><td>8.1</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-draft-contract/</code></td><td>Download draft contract PDF (pending_issuance, pending_review, pending_signature, issued, or tpa_services_activated)</td></tr>
+        <tr><td>8.2</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-contract/</code></td><td>Download contract PDF (when issued and TPA-activated only)</td></tr>
+        <tr><td>8.3</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-signed-quotation/</code></td><td>Download signed quotation PDF</td></tr>
+        <tr><td>8.4</td><td><span class="method method-get">GET</span></td><td><code>/purchase-requests/{id}/download-quotation-pdf/</code></td><td>Download quotation proposal PDF (any status)</td></tr>
         <tr><td>9.1</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/members/</code></td><td>List active members (TPA-activated only)</td></tr>
         <tr><td>9.2</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/members/all/</code></td><td>List all members — active and inactive (TPA-activated only)</td></tr>
         <tr><td>9.3</td><td><span class="method method-get">GET</span></td><td><code>/policies/{id}/members/download/</code></td><td>Download active members Excel (TPA-activated only)</td></tr>
