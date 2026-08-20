@@ -898,6 +898,17 @@
 
     <!-- ── What's New ── -->
     <div class="callout">
+      <h3>What's New — May 21, 2026</h3>
+      <p><strong>Endorsement Request — Conflict Enforcement on Submission (9.8)</strong><br>
+      The Submit ER endpoint now enforces a <strong>conflict detection gate</strong> before all other validation. If any item in the ER conflicts with a pending item in another open ER on the same policy, the request is rejected with <code>409 Conflict</code>. Three conflict types are detected:</p>
+      <ul>
+        <li><strong>Deletion conflict</strong> — the member is already pending deletion in another open ER.</li>
+        <li><strong>Update conflict</strong> — a specific field (Name, Mobile Number, Staff ID, or Bank Details) for that member is already being updated in another open ER; or the member is pending deletion (blocking all updates).</li>
+        <li><strong>Addition conflict</strong> — a member with the same National ID (or same name + date of birth for non-Egyptian members) is already pending addition in another open ER.</li>
+      </ul>
+      <p>The <code>409</code> response includes a top-level <code>error</code> string and a <code>conflicts</code> array. Each entry identifies the member by name, the conflicting ER by display ID, and the exact field or action that is blocked. See section 9.8 for the full response structure.</p>
+      <p><strong>Important:</strong> You must resolve or cancel the conflicting open ER before this request can be submitted.</p>
+
       <h3>What's New — April 28, 2026</h3>
       <p><strong>Draft Contract Download Endpoint (8.1)</strong><br>
       New endpoint <code>GET /purchase-requests/{id}/download-draft-contract/</code> to download the draft contract PDF. Available when status is <code>pending_issuance</code>, <code>pending_review</code>, <code>pending_signature</code>, <code>issued</code>, or <code>tpa_services_activated</code> and a draft contract has been generated. Returns the PDF with filename format <code>draft_contract_PR-{id}.pdf</code>.</p>
@@ -2086,6 +2097,19 @@
       <strong>Error behavior:</strong> Returns <code>404</code> if the policy does not exist or does not belong to you. Returns <code>403</code> with a message like <em>"This action requires TPA services to be activated on the policy. Current policy status: &quot;Issued&quot;."</em> if the policy exists but has the wrong status.
     </div>
 
+    <div class="callout">
+      <h3>Endorsement Request Business Rules</h3>
+      <ol>
+        <li><strong>Name, National ID, or Date of Birth changes</strong> require a National ID document upload.</li>
+        <li><strong>Bank details</strong> can be set per member when the policy <code>reimbursement_type = employee</code>.</li>
+        <li><strong>Staff ID</strong> is editable only for dependents (<code>spouse</code> or <code>child</code>).</li>
+        <li><strong>Effective date</strong> may be backdated up to 30 days or the policy inception date (whichever is closer), and set forward up to the coverage end date. A new employee’s inception date anchors the 30-day document window for that employee’s dependents.</li>
+        <li><strong>Employee deletion cascades</strong> to all their active dependents; deleting a single dependent does not cascade.</li>
+        <li><strong>Medical and Life categories</strong> for new additions must already exist among the policy’s active members (plan restriction).</li>
+        <li><strong>Categories, member_type, and country</strong> are not editable mid-policy. GTL (group term life) updates keep a separate path for salary, life_category_id, and subgroup_id.</li>
+      </ol>
+    </div>
+
     <h3 id="s10-1">10.1 List Endorsement Requests</h3>
     <div class="endpoint"><span class="method method-get">GET</span> /policies/{purchase_request_id}/endorsement-requests/</div>
     <p>Returns all ERs for a policy, ordered newest first.</p>
@@ -2232,7 +2256,7 @@
   },
   <span class="key">"effective_date"</span>: <span class="str">"2026-04-01"</span>
 }</pre>
-    <p class="note">Data stored as-is. Deep validation (NID, duplicates, staff IDs, document rules, medical category plan check) runs on <strong>submit</strong>, not at item creation.</p>
+    <p class="note">Data stored as-is. Deep validation (NID, duplicates, staff IDs, document rules, <strong>effective-date range</strong>, and <strong>life/medical category plan restrictions</strong>) runs on <strong>submit</strong>, not at item creation. See the <a href="#endorsement-requests">Endorsement Request Business Rules</a> for details.</p>
     <p class="note"><strong>Category fields:</strong> <code>medical_category_id</code> and <code>life_category_id</code> accept either integer IDs or category name strings (e.g. <code>"K100"</code>, <code>"100"</code>). Names are resolved to IDs automatically.</p>
     <p class="note"><strong>Life category normalisation (enforced at creation):</strong> if <code>member_type</code> is <code>spouse</code> or <code>child</code>, any supplied <code>life_category_id</code> is stripped to <code>null</code> before storage.</p>
 
@@ -2254,15 +2278,23 @@
     <span class="key">"mobile_number"</span>: { <span class="key">"old"</span>: <span class="str">"01012345678"</span>, <span class="key">"new"</span>: <span class="str">"01098765432"</span> }
   }
 }</pre>
-    <p><strong>Editable fields:</strong> <code>name</code> and <code>mobile_number</code> only. All other fields require deletion + re-addition.</p>
+    <p><strong>Editable fields:</strong></p>
+    <ul>
+      <li>General: <code>name</code>, <code>mobile_number</code>, <code>national_id</code>, <code>date_of_birth</code>, <code>bank_details</code> (only when policy <code>reimbursement_type = employee</code>), and <code>staff_id</code> (dependents only).</li>
+      <li>GTL path (group term life): <code>salary</code>, <code>life_category_id</code>, <code>subgroup_id</code> — handled separately from member profile fields.</li>
+      <li><strong>Not editable mid-policy:</strong> <code>categories</code> (except the GTL <code>life_category_id</code>), <code>member_type</code>, and <code>country</code>. These require deletion + re-addition.</li>
+    </ul>
+    <p><strong>NID/DOB cross-check:</strong> When <code>national_id</code> or <code>date_of_birth</code> is changed, the NID format and DOB cross-check must still pass (century code <code>2</code>→1900s, <code>3</code>→2000s). Updating <code>name</code>, <code>national_id</code>, or <code>date_of_birth</code> auto-sets <code>required_document_type = National ID</code> — a National ID document must be uploaded before the ER can be submitted.</p>
     <p><strong>Validations (update):</strong></p>
     <ul>
       <li><code>policy_member</code> must be active and belong to this policy</li>
-      <li>Only <code>name</code> and <code>mobile_number</code> keys allowed — any other key returns <code>400</code></li>
+      <li>Only the allowed editable keys above are permitted — any other key returns <code>400</code></li>
       <li><code>name</code>: non-empty; Arabic/English letters, spaces, hyphens, apostrophes only</li>
       <li><code>mobile_number</code>: digits only; 10-digit input auto-prefixed with <code>0</code>; must be 11 digits</li>
+      <li><code>national_id</code>: 14 digits for Egyptians; must match <code>date_of_birth</code></li>
+      <li><code>staff_id</code>: only accepted for dependents (<code>spouse</code> or <code>child</code>); references an existing employee and is auto-suffixed</li>
       <li>Old values auto-filled from current member if not provided</li>
-      <li><strong>Name change → <code>required_document_type</code> auto-set to <code>National ID</code></strong> — must upload National ID document before ER can be submitted</li>
+      <li><strong>Document requirement:</strong> changes to <code>name</code>, <code>national_id</code>, or <code>date_of_birth</code> set <code>required_document_type</code> to <code>National ID</code></li>
     </ul>
     <p><strong>Error Responses:</strong></p>
     <ul>
@@ -2333,6 +2365,7 @@
       <li><strong>Not empty</strong> — ER must have ≥ 1 item</li>
       <li><strong>Update items gate</strong> — every update item's <code>update_fields_data</code> must be non-empty and <code>old &ne; new</code> for each field</li>
       <li><strong>Employee deletion cascade gate</strong> — for every deletion item targeting an employee, all of that employee's active dependents (spouse/child whose <code>staff_id</code> equals the employee's <code>staff_id</code> exactly, or starts with <code>&quot;{staff_id}-&quot;</code>, e.g. <code>EMP001-1</code>, <code>EMP001-2</code>) must also be present as deletion items in this ER. Returns <code>400</code> with a <code>details</code> list per employee showing <code>employee_name</code>, <code>employee_id</code>, and <code>missing_dependents</code> (id, name, member_type).</li>
+      <li><strong>Effective date validation</strong> — each item's <code>effective_date</code> may be backdated up to 30 days or the policy inception date (whichever is closer), and set forward up to the policy's <code>coverage_end_date</code>. A new employee's inception date anchors the 30-day document window for that employee's dependents.</li>
       <li><strong>Addition data validation:</strong>
         <ul>
           <li>Required fields: <code>name</code>, <code>date_of_birth</code>, <code>national_id</code>, <code>member_type</code></li>
@@ -2342,19 +2375,19 @@
           <li>No NID already in active policy members</li>
           <li><code>staff_id</code> required; employee IDs unique; dependent IDs reference an existing employee and are auto-suffixed (<code>EMP001-1</code>, <code>EMP001-2</code>, …)</li>
           <li><code>mobile_number</code>: 10 or 11 digits (10-digit auto-prefixed with <code>0</code>)</li>
-          <li><strong>Medical category plan restriction:</strong> <code>medical_category_id</code> must be one of the category IDs already in use by the policy's existing active members. If the policy has no members with categories yet (edge case), this check is skipped — mirrors the frontend dropdown which is pre-filtered to the policy's plans.</li>
-          <li><strong>Life category normalisation:</strong> any <code>life_category_id</code> present on a <code>spouse</code> or <code>child</code> addition item is set to <code>null</code> — dependents cannot hold a life insurance category.</li>
         </ul>
       </li>
-      <li><strong>Document requirements</strong> (only when <code>today &gt; inception_date + 30 days</code>):
+      <li><strong>Medical &amp; Life category plan restriction</strong> — <code>medical_category_id</code> for additions must already be in use by the policy's active members. The same check applies to <code>life_category_id</code> for employee additions. If the policy has no categorised active members yet (edge case), the check is skipped. Any <code>life_category_id</code> on a <code>spouse</code> or <code>child</code> addition item is set to <code>null</code>.</li>
+      <li><strong>Document requirements</strong> (anchored to the employee's <code>activation_date</code> or <code>inception_date</code> + 30 days):
         <ul>
           <li>Spouse addition → Marriage Certificate upload required</li>
-          <li>Child born &le; 30 days ago → no document needed</li>
-          <li><strong>Child born &gt; 30 days ago → ER BLOCKED entirely</strong> — broker must contact operations team</li>
-          <li>Update item with <code>name</code> change → National ID document required</li>
+          <li>Child born &le; 30 days after the employee's anchor date → no document needed</li>
+          <li><strong>Child born &gt; 30 days after the employee's anchor date → ER BLOCKED entirely</strong> — broker must contact operations team</li>
+          <li>Update item changing <code>name</code>, <code>national_id</code>, or <code>date_of_birth</code> → National ID document required</li>
         </ul>
       </li>
     </ol>
+    <p class="note"><strong>Backend changes:</strong> <code>validate_effective_date_for_er()</code> now uses a 30-day portal backdate (<code>ER_MAX_BACKDATE_DAYS = 30</code>) while keeping the 90-day admin warning threshold (see <code>endorsement_validation_service.py:23-129</code>). <code>validate_er_additions()</code> now enforces the life category plan restriction (see <code>endorsement_validation_service.py:432-497</code>).</p>
     <p><strong>On success:</strong> <code>status → pending</code>, <code>submitted_at = now()</code>, GlobeMed alteration email sent.</p>
     <p><strong>Success Response (200 OK):</strong> Returns full updated ER object (same structure as 9.3).</p>
     <p><strong>Error Responses:</strong></p>
