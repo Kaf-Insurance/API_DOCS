@@ -1379,10 +1379,17 @@
       <li><code>page_size</code> — Items per page (default: 10).</li>
     </ul>
     <p>Returns a paginated list with <code>count</code>, <code>next</code>, <code>previous</code>, and <code>results</code>.</p>
+    <p>Each purchase request in <code>results</code> includes a read-only <code>listingStatus</code> field:</p>
+    <ul>
+      <li><code>White</code> — The purchase request is white-listed.</li>
+      <li><code>Black</code> — The purchase request is black-listed.</li>
+      <li><code>Pending</code> — No white or black listing status has been set yet.</li>
+    </ul>
 
     <h3 id="s3-3">3.3 Get / Update Quotation Details</h3>
     <div class="endpoint"><span class="method method-get">GET</span> <span class="method method-patch">PATCH</span> /purchase-requests/{id}/</div>
     <p><strong>GET</strong> returns the complete quotation object including all member details.</p>
+    <p>The object returned by <strong>GET</strong> and <strong>PATCH</strong> includes the read-only <code>listingStatus</code> field. Its value is <code>White</code>, <code>Black</code>, or <code>Pending</code> when no listing status has been set yet.</p>
     <p><strong>PATCH</strong> (<code>application/json</code>) — Updatable fields (all optional):</p>
     <ul>
       <li><code>inception_date</code> (YYYY-MM-DD, must be tomorrow or later)</li>
